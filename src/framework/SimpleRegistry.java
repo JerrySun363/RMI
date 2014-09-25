@@ -6,13 +6,13 @@ import java.io.*;
 
 public class SimpleRegistry {
 	// registry holds its port and host, and connects to it each time.
-	String Host;
-	int Port;
+	String host;
+	int port;
 
-	// ultra simple constructor.
-	public SimpleRegistry(String IPAdr, int PortNum) {
-		Host = IPAdr;
-		Port = PortNum;
+	//Constructor
+	public SimpleRegistry(String IPAdr, int portNum) {
+		this.host = IPAdr;
+		this.port = portNum;
 	}
 
 	// returns the ROR (if found) or null (if else)
@@ -20,21 +20,22 @@ public class SimpleRegistry {
 		// open socket.
 		// it assumes registry is already located by locate registry.
 		// you should usually do try-catch here (and later).
-		Socket soc = new Socket(Host, Port);
+		Socket soc = new Socket(this.host, this.port);
 
-		System.out.println("socket made.");
+		System.out.println("Socket made.");
 
 		// get TCP streams and wrap them.
 		BufferedReader in = new BufferedReader(new InputStreamReader(
 				soc.getInputStream()));
 		PrintWriter out = new PrintWriter(soc.getOutputStream(), true);
 
-		System.out.println("stream made.");
+		System.out.println("Stream made.");
 
 		// it is locate request, with a service name.
-		out.println("lookup");
-		out.println(serviceName);
-
+		//out.println("lookup");
+		//out.println(serviceName);
+		//TODO: Change this part to be Write Message method.
+		
 		System.out.println("command and service name sent.");
 
 		// branch according to the answer.
@@ -83,7 +84,7 @@ public class SimpleRegistry {
 	public void rebind(String serviceName, RemoteObjectRef ror)
 			throws IOException {
 		// open socket. same as before.
-		Socket soc = new Socket(Host, Port);
+		Socket soc = new Socket(host, port);
 
 		// get TCP streams and wrap them.
 		BufferedReader in = new BufferedReader(new InputStreamReader(
@@ -94,9 +95,12 @@ public class SimpleRegistry {
 		out.println("Rebind");
 		out.println(serviceName);
 		out.println(ror.toString());
-
+		
+		//TODO: Change this to message.
+		
 		// it also gets an ack, but this is not used.
 		String ack = in.readLine();
+		//Check whether the rebind succeeds.
 
 		// close the socket.
 		soc.close();

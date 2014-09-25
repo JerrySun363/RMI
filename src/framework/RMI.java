@@ -4,12 +4,15 @@ package framework;
  * This does not offer the code of the whole communication module (CM) for RMI: 
  * but it gives some hints about how you can make it. I call it simply "yourRMI". 
 
- * For example, it  shows how you can get the host name etc., (well you can hardwire it if you like, I should say), 
+ * For example, it shows how you can get the host name etc. 
  * or how you can make a class out of classname as a string.
 
- * This just shows one design option. Other options are possible. 
+ * This just shows one design option. Other options are possible.
  * We assume there is a unique skeleton for each remote object class (not object) which is called by CM
- *  by static methods for unmarshalling etc. We can do without it, in which case CM does marshalling/unmarhshalling. 
+ *  by static methods for unmarshalling etc. 
+ *  
+ *  We can do without it, in which case CM does marshalling/unmarhshalling. 
+ *  
  *  Which is simpler, I cannot say, since both have their own simpleness and complexity.
  */
 
@@ -22,8 +25,8 @@ public class RMI {
 
 	/**
 	 * It will use a hash table, which contains ROR together with reference to
-	 * the remote object. As you can see, the exception handling is not done at
-	 * all.
+	 * the remote object. 
+	 * As you can see, the exception handling is not done at all.
 	 * 
 	 * @param args
 	 * @throws Exception
@@ -54,31 +57,22 @@ public class RMI {
 
 		// then register it into the table.
 		table.addObj(host, port, o);
-
+		
 		// create a socket.
 		ServerSocket serverSoc = new ServerSocket(port);
 
 		// Now we go into a loop.
 		// Look at rmiregistry.java for a simple server programming.
+		//
 		// The code is far from optimal but in any way you can get basics.
-		// Actually you should use multiple threads, or this easily
-		// deadlocks. But for your implementation I do not ask it.
+		// Actually you should use multiple threads, or this easily deadlocks.
+		//
+		// But for your implementation I do not ask it.
 		// For design, consider well.
 		while (true) {
 			// (1) receives an invocation request.
-			// (2) creates a socket and input/output streams.
-			// (3) gets the invocation, in martiallled form.
-			// (4) gets the real object reference from tbl.
-			// (5) Either:
-			// -- using the interface name, asks the skeleton,
-			// together with the object reference, to unmartial
-			// and invoke the real object.
-			// -- or do unmarshalling directly and involkes that
-			// object directly.
-			// (6) receives the return value, which (if not marshalled
-			// you should marshal it here) and send it out to the
-			// the source of the invoker.
-			// (7) closes the socket.
+				Socket socket = serverSoc.accept();
+			
 		}
 	}
 }
