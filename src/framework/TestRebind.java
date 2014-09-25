@@ -24,10 +24,7 @@ public class TestRebind {
 				InterfaceName);
 
 		// this is the ROR content.
-		System.out.println("IP address is " + ror.IP_adr);
-		System.out.println("Port num is " + ror.Port);
-		System.out.println("Object key is " + ror.Obj_Key);
-		System.out.println("Interface name is " + ror.Remote_Interface_Name);
+		System.out.println(ror.toString());
 
 		// locate.
 		SimpleRegistry sr = LocateSimpleRegistry.getRegistry(host, port);
@@ -40,12 +37,7 @@ public class TestRebind {
 
 			// test the binding by looking up.
 			RemoteObjectRef ror2 = sr.lookup(ServiceName);
-
-			System.out.println("IP address is " + ror2.IP_adr);
-			System.out.println("Port num is " + ror2.Port);
-			System.out.println("Object key is " + ror2.Obj_Key);
-			System.out.println("Interface name is "
-					+ ror2.Remote_Interface_Name);
+			System.out.println(ror2.toString());
 
 		} else {
 			System.out.println("no registry found.");

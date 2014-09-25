@@ -15,7 +15,7 @@ public class TestLookup {
 		// these is the service name.
 		String ServiceName = args[2];
 
-		System.out.println("We lookup " + ServiceName);
+		System.out.println("We lookup for" + ServiceName);
 
 		// locate.
 		SimpleRegistry sr = LocateSimpleRegistry.getRegistry(host, port);
@@ -27,16 +27,12 @@ public class TestLookup {
 			RemoteObjectRef ror = sr.lookup(ServiceName);
 
 			if (ror != null) {
-				System.out.println("IP address is " + ror.IP_adr);
-				System.out.println("Port num is " + ror.Port);
-				System.out.println("Object key is " + ror.Obj_Key);
-				System.out.println("Interface name is "
-						+ ror.Remote_Interface_Name);
+				System.out.println(ror.toString());
 			} else {
 				System.out.println("The service is bound to no remote object.");
 			}
 		} else {
-			System.out.println("no registry found.");
+			System.out.println("No registry found.");
 		}
 
 	}

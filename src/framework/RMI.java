@@ -1,40 +1,42 @@
 package framework;
 
-/* This does not offer the code of the whole communication module 
- (CM) for RMI: but it gives some hints about how you can make 
- it. I call it simply "yourRMI". 
+/** 
+ * This does not offer the code of the whole communication module (CM) for RMI: 
+ * but it gives some hints about how you can make it. I call it simply "yourRMI". 
 
- For example, it  shows how you can get the host name etc.,
- (well you can hardwire it if you like, I should say),
- or how you can make a class out of classname as a string.
+ * For example, it  shows how you can get the host name etc., (well you can hardwire it if you like, I should say), 
+ * or how you can make a class out of classname as a string.
 
- This just shows one design option. Other options are
- possible. We assume there is a unique skeleton for each
- remote object class (not object) which is called by CM 
- by static methods for unmarshalling etc. We can do without
- it, in which case CM does marshalling/unmarhshalling.
- Which is simpler, I cannot say, since both have their
- own simpleness and complexity.
+ * This just shows one design option. Other options are possible. 
+ * We assume there is a unique skeleton for each remote object class (not object) which is called by CM
+ *  by static methods for unmarshalling etc. We can do without it, in which case CM does marshalling/unmarhshalling. 
+ *  Which is simpler, I cannot say, since both have their own simpleness and complexity.
  */
 
 import java.net.*;
 
 public class RMI {
-	static String host;
-	static int port;
+	private static String host;
+	private static int port;
+	private static int DEFAULT_PORT = 15640;
 
-	// It will use a hash table, which contains ROR together with
-	// reference to the remote object.
-	// As you can see, the exception handling is not done at all.
+	/**
+	 * It will use a hash table, which contains ROR together with reference to
+	 * the remote object. As you can see, the exception handling is not done at
+	 * all.
+	 * 
+	 * @param args
+	 * @throws Exception
+	 * @author Jerry Sun
+	 */
 	public static void main(String args[]) throws Exception {
 		String InitialClassName = args[0];
 		String registryHost = args[1];
 		int registryPort = Integer.parseInt(args[2]);
 		String serviceName = args[3];
 
-		// it should have its own port. assume you hardwire it.
 		host = (InetAddress.getLocalHost()).getHostName();
-		port = 12345;
+		port = RMI.DEFAULT_PORT;
 
 		// it now have two classes from MainClassName:
 		// (1) the class itself (say ZipCpdeServerImpl) and
