@@ -8,9 +8,10 @@ package message;
  */
 public enum MessageType {
 	// REQUEST
-	LOOKUP(LookupMessage.class), REBIND(RebindMessage.class),
+	LOOKUP(LookupMessage.class), REBIND(RebindMessage.class), UNBIND(UnbindMessage.class), BIND(BindMessage.class),
 	// RESPONSE
-	LOOKUP_RESPONSE(LookupResponse.class), REBIND_RESPONSE(RebindResponse.class),
+	LOOKUP_RESPONSE(LookupResponse.class), REBIND_RESPONSE(RebindResponse.class),BIND_RESPONSE(BindResponse.class),
+	UNBIND_RESPONSE(UnbindResponse.class),
 	// Method Call
 	METHOD(MethodCall.class);
 
