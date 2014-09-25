@@ -47,13 +47,13 @@ public class RMI {
 		// you should also create a remote object table here.
 		// it is a table of a ROR and a skeleton.
 		// as a hint, I give such a table's interface as RORtbl.java.
-		RORtbl tbl = new RORtbl();
+		RORTable table = new RORTable();
 
 		// after that, you create one remote object of initialclass.
 		Object o = initialclass.newInstance();
 
 		// then register it into the table.
-		tbl.addObj(host, port, o);
+		table.addObj(host, port, o);
 
 		// create a socket.
 		ServerSocket serverSoc = new ServerSocket(port);
