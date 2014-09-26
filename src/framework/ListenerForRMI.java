@@ -61,5 +61,12 @@ public class ListenerForRMI extends Thread {
 		// (7) closes the socket.
 
 	}
-
+	
+	public void processMessage(RMIMessage m){
+		switch (m.getType()){
+			
+		}
+	}
+	
+	
 }

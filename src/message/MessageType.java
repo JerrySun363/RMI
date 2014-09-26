@@ -3,26 +3,31 @@ package message;
 /**
  * All available Message Types. Each is bound to one specific class.
  * 
- * @author Jerry
+ * @author Jerry Sun
  * 
  */
 public enum MessageType {
 	// REQUEST
-	LOOKUP(LookupMessage.class), REBIND(RebindMessage.class), UNBIND(UnbindMessage.class), BIND(BindMessage.class),
+	LOOKUP,
+
+	REBIND,
+
+	UNBIND,
+
+	BIND,
 	// RESPONSE
-	LOOKUP_RESPONSE(LookupResponse.class), REBIND_RESPONSE(RebindResponse.class),BIND_RESPONSE(BindResponse.class),
-	UNBIND_RESPONSE(UnbindResponse.class),
+	LOOKUP_RESPONSE,
+
+	REBIND_RESPONSE,
+
+	BIND_RESPONSE,
+
+	UNBIND_RESPONSE,
 	// Method Call
-	METHOD(MethodCall.class);
-
-	private Class<?> myclass = null;
-
-	MessageType(Class<?> myclass) {
-		this.myclass = myclass;
-	}
-
-	public Class<?> getMyClass() {
-		return this.myclass;
-	}
-
+	METHOD,
+	// TODO: Add method response
+	// Method Response
+	METHOD_RETURN,
+	//Exception
+	EXCEPTION;
 }
