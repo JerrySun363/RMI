@@ -1,5 +1,7 @@
 package message;
 
+import message.response.AbstractResponse;
+
 public class ExceptionMessage extends AbstractResponse {
 	private static final long serialVersionUID = -643245226312472170L;
 	private String cause = "Unknown";

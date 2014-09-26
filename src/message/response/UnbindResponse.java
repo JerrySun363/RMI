@@ -1,4 +1,6 @@
-package message;
+package message.response;
+
+import message.MessageType;
 
 public class UnbindResponse extends AbstractResponse {
 

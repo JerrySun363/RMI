@@ -16,12 +16,17 @@ public class LocateSimpleRegistry {
 	public static SimpleRegistry getRegistry(String host, int port) {
 		// open socket.
 		try {
-			Socket soc = new Socket(host, port);
-
-			//Get TCP streams and wrap them.
+			Socket socket = new Socket(host, port);
+			ObjectOutputStream output = new ObjectOutputStream(
+					socket.getOutputStream());
+			ObjectInputStream input = new ObjectInputStream(
+					socket.getInputStream());
+			
+			
+			// Get TCP streams and wrap them.
 			BufferedReader in = new BufferedReader(new InputStreamReader(
-					soc.getInputStream()));
-			PrintWriter out = new PrintWriter(soc.getOutputStream(), true);
+					socket.getInputStream()));
+			PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
 			// Ask.
 			out.println("Who are you?");

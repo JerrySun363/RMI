@@ -1,5 +1,6 @@
-package message;
+package message.response;
 
+import message.MessageType;
 import framework.RemoteObjectRef;
 
 public class LookupResponse extends AbstractResponse {

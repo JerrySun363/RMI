@@ -1,4 +1,4 @@
-package message;
+package message.response;
 
 public class MethodReturn {
 

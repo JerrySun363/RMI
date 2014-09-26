@@ -28,6 +28,8 @@ public enum MessageType {
 	// TODO: Add method response
 	// Method Response
 	METHOD_RETURN,
-	//Exception
-	EXCEPTION;
+	// Exception
+	EXCEPTION,
+	// Locate
+	LOCATE, LOCATE_RESPONSE;
 }
