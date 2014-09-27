@@ -3,6 +3,9 @@ package framework;
 import java.net.*;
 import java.io.*;
 
+import message.LocateMessage;
+import message.response.LocateResponse;
+
 public class LocateSimpleRegistry {
 	/**
 	 * This is the SOLE static method. you use it as:
@@ -12,35 +15,37 @@ public class LocateSimpleRegistry {
 	 * @param host
 	 * @param port
 	 * @return SimpleRegistry that is resisted with this host and port
+	 * @throws IOException
 	 */
-	public static SimpleRegistry getRegistry(String host, int port) {
+	public static SimpleRegistry getRegistry(String host, int port)
+			throws IOException {
 		// open socket.
+		Socket socket = null;
 		try {
-			Socket socket = new Socket(host, port);
+			socket = new Socket(host, port);
 			ObjectOutputStream output = new ObjectOutputStream(
 					socket.getOutputStream());
 			ObjectInputStream input = new ObjectInputStream(
 					socket.getInputStream());
-			
-			
-			// Get TCP streams and wrap them.
-			BufferedReader in = new BufferedReader(new InputStreamReader(
-					socket.getInputStream()));
-			PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
-			// Ask.
-			out.println("Who are you?");
-
-			// Gets answer.
-			if ((in.readLine()).equals("I am a simple registry.")) {
+			int challenge = (int) Math.round(Math.random() * 30);
+			LocateMessage locate = new LocateMessage(challenge);
+			output.writeObject(locate);
+			LocateResponse res = (LocateResponse) input.readObject();
+			if (res.getResponse() == challenge * challenge) {
 				return new SimpleRegistry(host, port);
 			} else {
-				System.out.println("somebody is there but not a registry!");
+				System.out.println("Somebody is there, but not registry!");
 				return null;
 			}
+
 		} catch (Exception e) {
-			System.out.println("nobody is there!" + e);
+			System.out.println("Nobody is there!" + e);
 			return null;
+		} finally {
+			if (socket != null) {
+				socket.close();
+			}
 		}
 	}
 }
