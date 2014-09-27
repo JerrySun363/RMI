@@ -72,7 +72,6 @@ public class RMI {
 		while (true) {
 			// (1) receives an invocation request.
 				Socket socket = serverSoc.accept();
-			
 		}
 	}
 }

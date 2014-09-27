@@ -1,108 +1,247 @@
 package framework;
 
-import java.util.*;
 import java.net.*;
 import java.io.*;
 
+import message.BindMessage;
+import message.LookupMessage;
+import message.MessageType;
+import message.RMIMessage;
+import message.RebindMessage;
+import message.UnbindMessage;
+import message.response.AbstractResponse;
+import message.response.BindResponse;
+import message.response.LookupResponse;
+
+/**
+ * 
+ * @author Jerry
+ * @see {http://docs.oracle.com/javase/7/docs/api/java/rmi/Naming.html}
+ */
 public class SimpleRegistry {
 	// registry holds its port and host, and connects to it each time.
-	String host;
-	int port;
+	private String host;
+	private int port;
+	private Socket socket = null;
+	private ObjectOutputStream out = null;
+	private ObjectInputStream in = null;
 
-	//Constructor
+	// Constructor
 	public SimpleRegistry(String IPAdr, int portNum) {
 		this.host = IPAdr;
 		this.port = portNum;
 	}
 
-	// returns the ROR (if found) or null (if else)
-	public RemoteObjectRef lookup(String serviceName) throws IOException {
-		// open socket.
-		// it assumes registry is already located by locate registry.
-		// you should usually do try-catch here (and later).
-		Socket soc = new Socket(this.host, this.port);
-
-		System.out.println("Socket made.");
-
-		// get TCP streams and wrap them.
-		BufferedReader in = new BufferedReader(new InputStreamReader(
-				soc.getInputStream()));
-		PrintWriter out = new PrintWriter(soc.getOutputStream(), true);
-
-		System.out.println("Stream made.");
-
-		// it is locate request, with a service name.
-		//out.println("lookup");
-		//out.println(serviceName);
-		//TODO: Change this part to be Write Message method.
-		
-		System.out.println("command and service name sent.");
-
-		// branch according to the answer.
-		String res = in.readLine();
-		RemoteObjectRef ror;
-
-		if (res.equals("found")) {
-
-			System.out.println("it is found!.");
-
-			// receive ROR data, witout check.
-			String ro_IPAdr = in.readLine();
-
-			System.out.println(ro_IPAdr);
-
-			int ro_PortNum = Integer.parseInt(in.readLine());
-
-			System.out.println(ro_PortNum);
-
-			int ro_ObjKey = Integer.parseInt(in.readLine());
-
-			System.out.println(ro_ObjKey);
-
-			String ro_InterfaceName = in.readLine();
-
-			System.out.println(ro_InterfaceName);
-
-			// make ROR.
-			ror = new RemoteObjectRef(ro_IPAdr, ro_PortNum, ro_ObjKey,
-					ro_InterfaceName);
-		} else {
-			System.out.println("it is not found!.");
-
-			ror = null;
+	public void initSocket() {
+		try {
+			socket = new Socket(this.host, this.port);
+			out = new ObjectOutputStream(socket.getOutputStream());
+			in = new ObjectInputStream(socket.getInputStream());
+		} catch (UnknownHostException e) {
+			System.out.println("Unknown Host Exception when initSocket!");
+			e.printStackTrace();
+		} catch (IOException e) {
+			System.out.println("I/O Exception when initSocket!");
+			e.printStackTrace();
 		}
 
-		// close the socket.
-		soc.close();
+	}
 
-		// return ROR.
+	/**
+	 * Returns the ROR (if found) or null (if else)
+	 * 
+	 * @param serviceName
+	 * @return RemoteObjectRef
+	 * @throws IOException
+	 */
+	public RemoteObjectRef lookup(String serviceName) throws IOException {
+		if (serviceName == null || serviceName.length() == 0) {
+			System.out.println("Please input valid service name!");
+			return null;
+		}
+
+		System.out.println("Start look up service: " + serviceName);
+		if (this.socket == null) {
+			this.initSocket();
+		}
+
+		LookupMessage lookup = new LookupMessage(serviceName);
+		this.writeMessage(lookup);
+		System.out.println("Lookup Message Sent!");
+
+		RMIMessage message = this.readMessage();
+		if (message == null || message.getType() != MessageType.LOOKUP_RESPONSE) {
+			System.out
+					.println("Could Not find correct response!\nPlease try later");
+			return null;
+		}
+
+		LookupResponse res = (LookupResponse) message;
+		RemoteObjectRef ror = res.getROR();
 		return ror;
 	}
 
-	// rebind a ROR. ROR can be null. again no check, on this or whatever.
-	// I hate this but have no time.
+	/**
+	 * Binds the specified name to a remote object.
+	 * 
+	 * @param serviceName
+	 *            - The name of the services.
+	 * @param ROR
+	 *            - A Remote Object Reference
+	 * 
+	 */
+	public void bind(String serviceName, RemoteObjectRef ror) {
+		// Check RoR.
+		if (ror == null) {
+			System.out.println("Please input valid Remote Object Reference!");
+			return;
+		}
+
+		if (serviceName == null || serviceName.isEmpty()) {
+			System.out.println("Please input valid service name!");
+			return;
+		}
+
+		if (this.socket == null) {
+			this.initSocket();
+		}
+		BindMessage message = new BindMessage(serviceName, ror);
+		this.writeMessage(message);
+		System.out.println("Bind Message sent!");
+
+		/* Read response to determine the status of the operation! */
+		RMIMessage response = (RMIMessage) this.readMessage();
+		if (response == null || response.getType() != MessageType.BIND_RESPONSE) {
+			System.out.println("Error in Reading Response!");
+		}
+
+		if (((BindResponse) response).isSuccess()) {
+			System.out.println("Bind Success!");
+		} else {
+			System.out.println("Bind Fails!");
+		}
+
+	}
+
+	/**
+	 * Rebind a ROR.
+	 * 
+	 * @param serviceName
+	 * @param ror
+	 * @throws IOException
+	 */
 	public void rebind(String serviceName, RemoteObjectRef ror)
 			throws IOException {
-		// open socket. same as before.
-		Socket soc = new Socket(host, port);
+		// Check RoR.
+		if (ror == null) {
+			System.out.println("Please input valid Remote Object Reference!");
+			return;
+		}
 
-		// get TCP streams and wrap them.
-		BufferedReader in = new BufferedReader(new InputStreamReader(
-				soc.getInputStream()));
-		PrintWriter out = new PrintWriter(soc.getOutputStream(), true);
+		if (serviceName == null || serviceName.isEmpty()) {
+			System.out.println("Please input valid service name!");
+			return;
+		}
 
-		// it is a rebind request, with a service name and ROR.
-		out.println("Rebind");
-		out.println(serviceName);
-		out.println(ror.toString());
-		
-		//TODO: Change this to message.
-		
-		// it also gets an ack, but this is not used.
-		String ack = in.readLine();
-		//Check whether the rebind succeeds.
+		if (this.socket == null) {
+			this.initSocket();
+		}
+		RebindMessage message = new RebindMessage(serviceName, ror);
+		this.writeMessage(message);
+		System.out.println("Rebind Message sent!");
 
-		// close the socket.
-		soc.close();
+		/* Read response to determine the status of the operation! */
+		RMIMessage response = (RMIMessage) this.readMessage();
+		if (response == null
+				|| response.getType() != MessageType.REBIND_RESPONSE) {
+			System.out.println("Error in Reading Response!");
+		}
+
+		if (((BindResponse) response).isSuccess()) {
+			System.out.println("Rebind Success!");
+		} else {
+			System.out.println("Rebind Fails!");
+		}
 	}
+
+	/**
+	 * 
+	 * @param serviceName
+	 * @param ror
+	 */
+	public void unbind(String serviceName) {
+		if (serviceName == null || serviceName.isEmpty()) {
+			System.out.println("Please input valid service name!");
+			return;
+		}
+
+		if (this.socket == null) {
+			this.initSocket();
+		}
+		UnbindMessage message = new UnbindMessage(serviceName);
+		this.writeMessage(message);
+		System.out.println("Unbind Message sent!");
+
+		/* Read response to determine the status of the operation! */
+		RMIMessage response = (RMIMessage) this.readMessage();
+		if (response == null
+				|| response.getType() != MessageType.UNBIND_RESPONSE) {
+			System.out.println("Error in Reading Response!");
+		}
+
+		if (((BindResponse) response).isSuccess()) {
+			System.out.println("Unbind Success!");
+		} else {
+			System.out.println("Unbind Fails!");
+		}
+	}
+
+	/**
+	 * Closes the socket. It will cause the
+	 */
+	public void destroy() {
+		try {
+			this.out = null;
+			this.in = null;
+			this.socket.close();
+			this.socket = null;
+		} catch (IOException e) {
+			System.out.println("Error when destroying the socket!");
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Utility method to read message
+	 * 
+	 * @param message
+	 */
+	private void writeMessage(RMIMessage message) {
+		try {
+			this.out.writeObject(message);
+		} catch (IOException e) {
+			System.out.println("Error when writing new Messages!");
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Utility method to read message
+	 * 
+	 * @param message
+	 */
+	private RMIMessage readMessage() {
+		RMIMessage message = null;
+		try {
+			message = (RMIMessage) (this.in.readObject());
+		} catch (IOException e) {
+			System.out.println("I/O Exception during read object!");
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			System.out.println("Could not convert it to RMI Message!");
+			e.printStackTrace();
+		}
+		return message;
+	}
+
 }

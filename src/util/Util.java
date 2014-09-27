@@ -9,7 +9,10 @@ import java.util.Hashtable;
 import message.RMIMessage;
 
 /**
- * The Utility methods are used to operate write/read operations
+ * The Utility methods are used to operate and cache write/read operations.
+ * 
+ * We use map to cache the connection here. Thus it should be used to cache the
+ * server side operation.
  * 
  * @author Jerry Sun
  * 
@@ -19,11 +22,11 @@ public class Util {
 	private static Hashtable<Socket, ObjectInputStream> inputMap = new Hashtable<>();
 
 	public static void writeMessage(Socket socket, RMIMessage message) {
-			
+
 	}
 
 	public static RMIMessage readMessage(Socket socket) {
-		
+
 		return null;
 	}
 
@@ -43,6 +46,4 @@ public class Util {
 		return true;
 	}
 
-	
-	
 }

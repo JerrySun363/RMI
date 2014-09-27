@@ -1,6 +1,8 @@
 package framework;
 
-public class RemoteObjectRef {
+import util.Remote;
+
+public class RemoteObjectRef implements Remote {
 	private String ipAddr;
 	private int port;
 	private int objKey;

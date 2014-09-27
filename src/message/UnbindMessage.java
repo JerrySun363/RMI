@@ -4,7 +4,6 @@ import framework.RemoteObjectRef;
 
 public class UnbindMessage extends RMIMessage {
 	private String serviceName = null;
-	private RemoteObjectRef ror = null;
 	private static final long serialVersionUID = 6160878511891744943L;
 
 	public UnbindMessage() {
@@ -12,10 +11,9 @@ public class UnbindMessage extends RMIMessage {
 		super.setType(MessageType.UNBIND);
 	}
 
-	public UnbindMessage(String serviceName, RemoteObjectRef ror) {
+	public UnbindMessage(String serviceName) {
 		this();
 		this.setServiceName(serviceName);
-		this.setROR(ror);
 
 	}
 
@@ -26,13 +24,4 @@ public class UnbindMessage extends RMIMessage {
 	public void setServiceName(String serviceName) {
 		this.serviceName = serviceName;
 	}
-
-	public RemoteObjectRef getROR() {
-		return ror;
-	}
-
-	public void setROR(RemoteObjectRef ror) {
-		this.ror = ror;
-	}
-
 }
