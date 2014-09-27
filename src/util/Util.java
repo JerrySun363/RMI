@@ -22,12 +22,36 @@ public class Util {
 	private static Hashtable<Socket, ObjectInputStream> inputMap = new Hashtable<>();
 
 	public static void writeMessage(Socket socket, RMIMessage message) {
-
+		ObjectOutputStream out = null;
+		try {
+			if (outputMap.containsKey(socket)) {
+				out = outputMap.get(socket);
+			} else {
+				out = new ObjectOutputStream(socket.getOutputStream());
+				outputMap.put(socket, out);
+			}
+			out.writeObject(message);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static RMIMessage readMessage(Socket socket) {
-
-		return null;
+		ObjectInputStream in = null;
+		RMIMessage message = null;
+		try {
+			if (inputMap.containsKey(socket)) {
+				in = inputMap.get(socket);
+			} else {
+				in = new ObjectInputStream(socket.getInputStream());
+			}
+			message = (RMIMessage) in.readObject();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return message;
 	}
 
 	public static boolean closeSocket(Socket socket) {

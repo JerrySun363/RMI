@@ -7,9 +7,9 @@ package util;
  * If it implements remote reference, it should be returned as
  * RemoteObjectReference.
  * 
- * @author Jerry
+ * @author Jerry Sun
  * 
  */
 public interface Remote {
-
+	
 }
