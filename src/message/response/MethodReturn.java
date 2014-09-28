@@ -9,4 +9,7 @@ public class MethodReturn extends AbstractResponse implements util.Remote{
 	private RemoteObjectRef ror;
 	private boolean isROR;
 	
+	public MethodReturn (Object returnObject) {
+		this.object = returnObject;
+	}
 }

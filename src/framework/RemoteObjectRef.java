@@ -37,8 +37,8 @@ public class RemoteObjectRef implements Remote {
 	public RemoteObjectRef(String host, int port, int objKey, String riname) {
 		this.host = host;
 		this.port = port;
-		//this.objKey = objKey;
-		//this.RemoteInterfaceName = riname;
+		this.objKey = objKey;
+		this.remoteInterfaceName = riname;
 	}
 
 	// this method is important, since it is a stub creator.
