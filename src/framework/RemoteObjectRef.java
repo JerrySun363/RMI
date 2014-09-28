@@ -7,6 +7,43 @@ public class RemoteObjectRef implements Remote {
 	private int port;
 	//private int objKey;
 	//private String RemoteInterfaceName;
+	private String ipAddr;
+
+	public String getIpAddr() {
+		return ipAddr;
+	}
+
+	public int getPort() {
+		return port;
+	}
+
+	public int getObjKey() {
+		return objKey;
+	}
+
+	public String getRemoteInterfaceName() {
+		return remoteInterfaceName;
+	}
+
+	public void setIpAddr(String ipAddr) {
+		this.ipAddr = ipAddr;
+	}
+
+	public void setPort(int port) {
+		this.port = port;
+	}
+
+	public void setObjKey(int objKey) {
+		this.objKey = objKey;
+	}
+
+	public void setRemoteInterfaceName(String remoteInterfaceName) {
+		this.remoteInterfaceName = remoteInterfaceName;
+	}
+
+	private int port;
+	private int objKey;
+	private String remoteInterfaceName;
 
 	public RemoteObjectRef(String host, int port, int objKey, String riname) {
 		this.host = host;

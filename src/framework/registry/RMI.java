@@ -1,4 +1,4 @@
-package framework;
+package framework.registry;
 
 /** 
  * This does not offer the code of the whole communication module (CM) for RMI: 
@@ -19,6 +19,8 @@ package framework;
 import java.net.*;
 import java.util.HashMap;
 import java.util.HashSet;
+
+import framework.RORTable;
 
 public class RMI {
 	private static String host;
@@ -74,7 +76,7 @@ public class RMI {
 		Object o = initialclass.newInstance();
 
 		// then register it into the table.
-		table.addObj(host, port, o);
+		table.addObject(host, port, o);
 		
 		// create a socket.
 		ServerSocket serverSoc = new ServerSocket(port);

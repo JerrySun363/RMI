@@ -14,9 +14,10 @@ package tst.ZipCode;
 
 import java.io.*;
 
-import framework.LocateSimpleRegistry;
+import exception.RemoteServiceException;
 import framework.RemoteObjectRef;
-import framework.SimpleRegistry;
+import framework.registry.LocateSimpleRegistry;
+import framework.registry.RegistryInterface;
 
 public class ZipCodeClient {
 
@@ -25,14 +26,14 @@ public class ZipCodeClient {
 	// (1) a port.
 	// (2) a service name.
 	// (3) a file name as above.
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, RemoteServiceException {
 		String host = args[0];
 		int port = Integer.parseInt(args[1]);
 		String serviceName = args[2];
 		BufferedReader in = new BufferedReader(new FileReader(args[3]));
 
 		// locate the registry and get ror.
-		SimpleRegistry sr = LocateSimpleRegistry.getRegistry(host, port);
+		RegistryInterface sr = LocateSimpleRegistry.getRegistry(host, port);
 		RemoteObjectRef ror = sr.lookup(serviceName);
 
 		// get (create) the stub out of ror.

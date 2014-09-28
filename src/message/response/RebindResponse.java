@@ -12,12 +12,12 @@ public class RebindResponse extends AbstractResponse {
 	private static final long serialVersionUID = -1562062519610354705L;
 	private boolean success = true;
 
-	private RebindResponse() {
+	public RebindResponse() {
 		super();
 		super.setType(MessageType.REBIND_RESPONSE);
 	}
 
-	private RebindResponse(boolean success) {
+	public RebindResponse(boolean success) {
 		this();
 		this.setSuccess(success);
 	}

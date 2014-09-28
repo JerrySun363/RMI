@@ -1,24 +1,26 @@
-package framework;
+package framework.registry;
 
 import java.net.*;
 import java.io.*;
 
+import exception.RemoteServiceException;
+import framework.RemoteObjectRef;
 import message.BindMessage;
 import message.LookupMessage;
 import message.MessageType;
 import message.RMIMessage;
 import message.RebindMessage;
 import message.UnbindMessage;
-import message.response.AbstractResponse;
 import message.response.BindResponse;
 import message.response.LookupResponse;
+import message.response.RebindResponse;
 
 /**
  * 
  * @author Jerry
  * @see {http://docs.oracle.com/javase/7/docs/api/java/rmi/Naming.html}
  */
-public class SimpleRegistry {
+public class SimpleRegistry implements RegistryInterface {
 	// registry holds its port and host, and connects to it each time.
 	private String host;
 	private int port;
@@ -47,14 +49,12 @@ public class SimpleRegistry {
 
 	}
 
-	/**
-	 * Returns the ROR (if found) or null (if else)
-	 * 
-	 * @param serviceName
-	 * @return RemoteObjectRef
-	 * @throws IOException
+	/* (non-Javadoc)
+	 * @see framework.registry.RegistryInterface#lookup(java.lang.String)
 	 */
-	public RemoteObjectRef lookup(String serviceName) throws IOException {
+	@Override
+	public RemoteObjectRef lookup(String serviceName)
+			throws RemoteServiceException {
 		if (serviceName == null || serviceName.length() == 0) {
 			System.out.println("Please input valid service name!");
 			return null;
@@ -77,20 +77,21 @@ public class SimpleRegistry {
 		}
 
 		LookupResponse res = (LookupResponse) message;
-		RemoteObjectRef ror = res.getROR();
+		RemoteObjectRef ror = null;
+		if (!res.isSuccess() || res.getException() != null) {
+			throw res.getException();
+		} else {
+			ror = res.getROR();
+		}
 		return ror;
 	}
 
-	/**
-	 * Binds the specified name to a remote object.
-	 * 
-	 * @param serviceName
-	 *            - The name of the services.
-	 * @param ROR
-	 *            - A Remote Object Reference
-	 * 
+	/* (non-Javadoc)
+	 * @see framework.registry.RegistryInterface#bind(java.lang.String, framework.RemoteObjectRef)
 	 */
-	public void bind(String serviceName, RemoteObjectRef ror) {
+	@Override
+	public void bind(String serviceName, RemoteObjectRef ror)
+			throws RemoteServiceException {
 		// Check RoR.
 		if (ror == null) {
 			System.out.println("Please input valid Remote Object Reference!");
@@ -115,23 +116,24 @@ public class SimpleRegistry {
 			System.out.println("Error in Reading Response!");
 		}
 
-		if (((BindResponse) response).isSuccess()) {
-			System.out.println("Bind Success!");
-		} else {
+		if (!((BindResponse) response).isSuccess()) {
 			System.out.println("Bind Fails!");
+			if (((BindResponse) response).getException() != null) {
+				throw ((BindResponse) response).getException();
+			}
+		} else {
+			System.out.println("Bind Success!");
+
 		}
 
 	}
 
-	/**
-	 * Rebind a ROR.
-	 * 
-	 * @param serviceName
-	 * @param ror
-	 * @throws IOException
+	/* (non-Javadoc)
+	 * @see framework.registry.RegistryInterface#rebind(java.lang.String, framework.RemoteObjectRef)
 	 */
+	@Override
 	public void rebind(String serviceName, RemoteObjectRef ror)
-			throws IOException {
+			throws RemoteServiceException {
 		// Check RoR.
 		if (ror == null) {
 			System.out.println("Please input valid Remote Object Reference!");
@@ -157,19 +159,21 @@ public class SimpleRegistry {
 			System.out.println("Error in Reading Response!");
 		}
 
-		if (((BindResponse) response).isSuccess()) {
+		if (((RebindResponse) response).isSuccess()) {
 			System.out.println("Rebind Success!");
 		} else {
 			System.out.println("Rebind Fails!");
+			if (((RebindResponse) response).getException() != null) {
+				throw ((RebindResponse) response).getException();
+			}
 		}
 	}
 
-	/**
-	 * 
-	 * @param serviceName
-	 * @param ror
+	/* (non-Javadoc)
+	 * @see framework.registry.RegistryInterface#unbind(java.lang.String)
 	 */
-	public void unbind(String serviceName) {
+	@Override
+	public void unbind(String serviceName) throws RemoteServiceException {
 		if (serviceName == null || serviceName.isEmpty()) {
 			System.out.println("Please input valid service name!");
 			return;
@@ -193,6 +197,9 @@ public class SimpleRegistry {
 			System.out.println("Unbind Success!");
 		} else {
 			System.out.println("Unbind Fails!");
+			if (((BindResponse) response).getException() != null) {
+				throw ((BindResponse) response).getException();
+			}
 		}
 	}
 

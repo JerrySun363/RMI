@@ -1,10 +1,11 @@
-package framework;
+package framework.registry;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import framework.RORTable;
 import message.RMIMessage;
 
 /**
@@ -19,13 +20,11 @@ import message.RMIMessage;
 public class ListenerForRMI extends Thread {
 
 	private Socket socket;
-	private RORTable table;
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
 
 	public ListenerForRMI(RORTable table, Socket socket) throws IOException {
 		this.socket = socket;
-		this.table = table;
 		// (2) creates a socket and input/output streams.
 		out = new ObjectOutputStream(socket.getOutputStream());
 		in = new ObjectInputStream(socket.getInputStream());

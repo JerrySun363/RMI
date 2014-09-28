@@ -11,10 +11,10 @@ public class RORTable {
 	// The table would have a key by ROR.
 
 	// make a new table.
-	HashMap<RemoteObjectRef, Object> table;
+	Hashtable<String, Object> table;
 
 	public RORTable() {
-		this.table = new HashMap<RemoteObjectRef, Object>();
+		this.table = new Hashtable<String, Object>();
 	}
 
 	// Add a remote object to the table.
@@ -26,6 +26,10 @@ public class RORTable {
 		//table.put(new RemoteObjectRef(host, port, objKey, riname), o);
 	}
 
+	public void addObject(RemoteObjectRef ror, Object o){
+		
+	}
+	
 	// given ror, find the corresponding object.
 	public Object findObj(RemoteObjectRef ror) {
 		return table.get(ror);
