@@ -1,12 +1,15 @@
 package framework;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 import util.Remote;
 
 public class RemoteObjectRef implements Remote {
 	private String host;
 	private int port;
-	//private int objKey;
-	//private String RemoteInterfaceName;
+	// private int objKey;
+	// private String RemoteInterfaceName;
 	private String ipAddr;
 
 	public String getIpAddr() {
@@ -41,49 +44,53 @@ public class RemoteObjectRef implements Remote {
 		this.remoteInterfaceName = remoteInterfaceName;
 	}
 
-	private int port;
 	private int objKey;
 	private String remoteInterfaceName;
 
 	public RemoteObjectRef(String host, int port, int objKey, String riname) {
 		this.host = host;
 		this.port = port;
-		//this.objKey = objKey;
-		//this.RemoteInterfaceName = riname;
+		// this.objKey = objKey;
+		this.remoteInterfaceName = riname;
 	}
 
-	// this method is important, since it is a stub creator.
-	//
+	
+	/**
+	 * 
+	 * @return localised object
+	 */
 	public Object localise() {
-		// Implement this as you like: essentially you should
-		// create a new stub object and returns it.
-		// Assume the stub class has the name e.g.
-		//
-		// Remote_Interface_Name + "_stub".
-		//
-		// Then you can create a new stub as follows:
-		//
-		// Class c = Class.forName(Remote_Interface_Name + "_stub");
-		// Object o = c.newinstance()
-		//
-		// For this to work, your stub should have a constructor without
-		// arguments.
-		// You know what it does when it is called: it gives communication
-		// module
-		// all what it got (use CM's static methods), including its method name,
-		// arguments etc., in a marshalled form, and CM (yourRMI) sends it out
-		// to
-		// another place.
-		// Here let it return null.
-		return null;
+		Object object = null;
+		try {
+			Class<?> c = Class.forName(remoteInterfaceName + "Stub");
+			Constructor<?> cons = c.getConstructor(String.class, Integer.class);
+			object = cons.newInstance(this.host, this.port);
+
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		return object;
+
 	}
 
 	public String toString() {
 		String info = "";
 		info += "IP Address : " + this.host + "\n";
 		info += "Port Number : " + this.port + "\n";
-		//info += "Object Key : " + this.objKey + "\n";
-		//info += "Interface Name : " + this.RemoteInterfaceName + "\n";
+		// info += "Object Key : " + this.objKey + "\n";
+		// info += "Interface Name : " + this.RemoteInterfaceName + "\n";
 		return info;
 	}
 }

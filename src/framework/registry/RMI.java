@@ -20,6 +20,7 @@ import java.net.*;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import framework.ListenerForClient;
 import framework.RORTable;
 
 public class RMI {
@@ -76,7 +77,7 @@ public class RMI {
 		Object o = initialclass.newInstance();
 
 		// then register it into the table.
-		table.addObject(host, port, o);
+		table.addObj(host, port, o);
 		
 		// create a socket.
 		ServerSocket serverSoc = new ServerSocket(port);

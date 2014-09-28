@@ -27,13 +27,14 @@ public class ListenerForClient extends Thread {
 	}
 
 	@Override
-	public void run(){
+	public void run() {
 
 		// (3) gets the invocation, in martiallled form.
 		try {
-			ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+			ObjectInputStream in = new ObjectInputStream(
+					socket.getInputStream());
 			RMIMessage message = (RMIMessage) in.readObject();
-			
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -48,8 +49,7 @@ public class ListenerForClient extends Thread {
 			}
 			log("Connection with client# " + " " + " closed");
 		}
-		
-		
+
 		// (4) gets the real object reference from tbl.
 
 		// (5) Either:
@@ -64,15 +64,14 @@ public class ListenerForClient extends Thread {
 		// (7) closes the socket.
 
 	}
-	
+
 	private void log(String info) {
 		System.out.println(info);
 	}
-	
-	public void processMessage(MethodCall m){
+
+	public void processMessage(MethodCall m) {
 		// MethodCall
-		m.
+
 	}
-	
-	
+
 }

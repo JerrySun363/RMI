@@ -3,7 +3,7 @@ package framework.registry;
 import java.net.Socket;
 import java.util.Hashtable;
 
-import com.sun.corba.se.impl.javax.rmi.CORBA.Util;
+import util.Util;
 
 import message.BindMessage;
 import message.LocateMessage;
@@ -61,7 +61,7 @@ public class RegistryHandler implements Runnable {
 			break;
 		}
 		if (msg != null) {
-			Util.
+			Util.writeMessage(this.socket, msg);
 		}
 
 	}
