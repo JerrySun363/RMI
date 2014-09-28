@@ -1,7 +1,7 @@
 package framework;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Proxy;
 
 import util.Remote;
 
@@ -48,28 +48,18 @@ public class RemoteObjectRef implements Remote {
 	 */
 	public Object localise() {
 		Object object = null;
-		try {
-			Class<?> c = Class.forName(remoteInterfaceName + "Stub");
-			Constructor<?> cons = c.getConstructor(String.class, Integer.class);
-			object = cons.newInstance(this.host, this.port);
 
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
+		try {
+			InvocationHandler handler = new RemoteInvocationHandler(this);
+
+			Class<?> proxyClass = Class.forName(this.getRemoteInterfaceName());
+
+			object = Proxy.newProxyInstance(proxyClass.getClassLoader(),
+					new Class[] { proxyClass }, handler);
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		}
 		return object;
-
 	}
 
 	public String toString() {

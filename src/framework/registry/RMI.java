@@ -29,43 +29,43 @@ public class RMI {
 
 	/**
 	 * It will use a hash table, which contains ROR together with reference to
-	 * the remote object. 
-	 * As you can see, the exception handling is not done at all.
+	 * the remote object. As you can see, the exception handling is not done at
+	 * all.
 	 * 
 	 * @param args
 	 * @throws Exception
 	 * @author Jerry Sun
 	 */
 	public static void main(String args[]) throws Exception {
-		
+
 		String registryHost = args[0];
 		int registryPort = Integer.parseInt(args[1]);
-		
-		int serviceNum = (args.length-2)/2;
-		
+
+		int serviceNum = (args.length - 2) / 2;
+
 		HashMap<String, String> serviceName_class = new HashMap<String, String>();
-		
+
 		for (int i = 0; i < serviceNum; i++) {
-			serviceName_class.put(args[2+i], args[3+i]);
+			serviceName_class.put(args[2 + i], args[3 + i]);
 		}
-//		String serviceName = args[3];
-//		String InitialClassName = args[0];
-//		
+		// String serviceName = args[3];
+		// String InitialClassName = args[0];
+		//
 		host = (InetAddress.getLocalHost()).getHostName();
 		port = RMI.DEFAULT_PORT;
 
 		// it now have two classes from MainClassName:
 		// (1) the class itself (say ZipCpdeServerImpl) and
 		// (2) its skeleton.
-		
+
 		Class initialclass = null;
 		Class initialskeleton = null;
-		
-		for (String className : serviceName_class.keySet() ) {
+
+		for (String className : serviceName_class.keySet()) {
 			initialclass = Class.forName(className);
 			initialskeleton = Class.forName(className + "_skel");
 		}
-		
+
 		// you should also create a remote object table here.
 		// it is a table of a ROR and a skeleton.
 		// as a hint, I give such a table's interface as RORtbl.java.
@@ -76,7 +76,7 @@ public class RMI {
 
 		// then register it into the table.
 		table.addObj(host, port, o);
-		
+
 		// create a socket.
 		ServerSocket serverSoc = new ServerSocket(port);
 
@@ -90,8 +90,8 @@ public class RMI {
 		// For design, consider well.
 		while (true) {
 			// (1) receives an invocation request.
-				Socket socket = serverSoc.accept();
-				new ListenerForClient(table, socket).start();
+			Socket socket = serverSoc.accept();
+			new ListenerForClient(table, socket).start();
 		}
 	}
 }
