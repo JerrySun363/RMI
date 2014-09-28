@@ -8,13 +8,8 @@ import util.Remote;
 public class RemoteObjectRef implements Remote {
 	private String host;
 	private int port;
-	// private int objKey;
-	// private String RemoteInterfaceName;
-	private String ipAddr;
-
-	public String getIpAddr() {
-		return ipAddr;
-	}
+	private int objKey;
+	private String remoteInterfaceName;
 
 	public int getPort() {
 		return port;
@@ -26,10 +21,6 @@ public class RemoteObjectRef implements Remote {
 
 	public String getRemoteInterfaceName() {
 		return remoteInterfaceName;
-	}
-
-	public void setIpAddr(String ipAddr) {
-		this.ipAddr = ipAddr;
 	}
 
 	public void setPort(int port) {
@@ -44,17 +35,13 @@ public class RemoteObjectRef implements Remote {
 		this.remoteInterfaceName = remoteInterfaceName;
 	}
 
-	private int objKey;
-	private String remoteInterfaceName;
-
 	public RemoteObjectRef(String host, int port, int objKey, String riname) {
 		this.host = host;
 		this.port = port;
-		// this.objKey = objKey;
+		this.objKey = objKey;
 		this.remoteInterfaceName = riname;
 	}
 
-	
 	/**
 	 * 
 	 * @return localised object
@@ -89,8 +76,16 @@ public class RemoteObjectRef implements Remote {
 		String info = "";
 		info += "IP Address : " + this.host + "\n";
 		info += "Port Number : " + this.port + "\n";
-		// info += "Object Key : " + this.objKey + "\n";
-		// info += "Interface Name : " + this.RemoteInterfaceName + "\n";
+		info += "Object Key : " + this.objKey + "\n";
+		info += "Interface Name : " + this.remoteInterfaceName + "\n";
 		return info;
+	}
+
+	public String getHost() {
+		return host;
+	}
+
+	public void setHost(String host) {
+		this.host = host;
 	}
 }

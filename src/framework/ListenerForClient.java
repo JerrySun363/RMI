@@ -3,10 +3,13 @@ package framework;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.reflect.Method;
 import java.net.Socket;
 
+import framework.registry.RMI;
 import message.MethodCall;
 import message.RMIMessage;
+import message.response.MethodReturn;
 
 /**
  * This class entends Thread to implement multi-thread dealing with RMI Look up.
@@ -20,8 +23,10 @@ import message.RMIMessage;
 public class ListenerForClient extends Thread {
 
 	private Socket socket;
+	private RORTable table;
 
-	public ListenerForClient(Socket socket) throws IOException {
+	public ListenerForClient(RORTable table, Socket socket) throws IOException {
+		this.table = table;
 		this.socket = socket;
 		// (2) creates a socket and input/output streams.
 	}
@@ -69,9 +74,28 @@ public class ListenerForClient extends Thread {
 		System.out.println(info);
 	}
 
-	public void processMessage(MethodCall m) {
+	/**
+	 * TODO: Add return support.
+	 * @param m
+	 * @return
+	 */
+	public MethodReturn processMessage(MethodCall m){
 		// MethodCall
-
+		if(m.getRor()==null){
+			return new MethodReturn();
+		}
+		
+		Object object = this.table.findObj(m.getRor());
+		if(object == null){
+			return new MethodReturn();
+		}
+		try {
+			Method method = this.getClass().getMethod(m.getMethod());
+			method.invoke(object, m.getArgs());
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return null;
 	}
 
 }
