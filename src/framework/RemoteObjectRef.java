@@ -5,41 +5,34 @@ import util.Remote;
 public class RemoteObjectRef implements Remote {
 	private String host;
 	private int port;
-	//private int objKey;
-	//private String RemoteInterfaceName;
-	private String ipAddr;
+	private int objKey;
+	private String remoteInterfaceName;
 
-	public String getIpAddr() {
-		return ipAddr;
-	}
 
 	public int getPort() {
 		return port;
 	}
 
-//	public int getObjKey() {
-//		return objKey;
-//	}
-//
-//	public String getRemoteInterfaceName() {
-//		return remoteInterfaceName;
-//	}
-
-	public void setIpAddr(String ipAddr) {
-		this.ipAddr = ipAddr;
+	public int getObjKey() {
+		return objKey;
 	}
+
+	public String getRemoteInterfaceName() {
+		return remoteInterfaceName;
+	}
+
 
 	public void setPort(int port) {
 		this.port = port;
 	}
 
-//	public void setObjKey(int objKey) {
-//		this.objKey = objKey;
-//	}
-//
-//	public void setRemoteInterfaceName(String remoteInterfaceName) {
-//		this.remoteInterfaceName = remoteInterfaceName;
-//	}
+	public void setObjKey(int objKey) {
+		this.objKey = objKey;
+	}
+
+	public void setRemoteInterfaceName(String remoteInterfaceName) {
+		this.remoteInterfaceName = remoteInterfaceName;
+	}
 
 	public RemoteObjectRef(String host, int port, int objKey, String riname) {
 		this.host = host;
@@ -78,8 +71,16 @@ public class RemoteObjectRef implements Remote {
 		String info = "";
 		info += "IP Address : " + this.host + "\n";
 		info += "Port Number : " + this.port + "\n";
-		//info += "Object Key : " + this.objKey + "\n";
-		//info += "Interface Name : " + this.RemoteInterfaceName + "\n";
+		info += "Object Key : " + this.objKey + "\n";
+		info += "Interface Name : " + this.remoteInterfaceName + "\n";
 		return info;
+	}
+
+	public String getHost() {
+		return host;
+	}
+
+	public void setHost(String host) {
+		this.host = host;
 	}
 }
