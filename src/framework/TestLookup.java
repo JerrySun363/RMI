@@ -2,11 +2,15 @@ package framework;
 
 import java.io.*;
 
+import exception.RemoteServiceException;
+import framework.registry.LocateSimpleRegistry;
+import framework.registry.RegistryInterface;
+
 // we test simple registry by looking up a service.
 
 public class TestLookup {
 
-	public static void main(String args[]) throws IOException {
+	public static void main(String args[]) throws IOException, RemoteServiceException {
 		// it takes three arguments.
 		// these are it wishes to connect to.
 		String host = args[0];
@@ -18,7 +22,7 @@ public class TestLookup {
 		System.out.println("We lookup for" + ServiceName);
 
 		// locate.
-		SimpleRegistry sr = LocateSimpleRegistry.getRegistry(host, port);
+		RegistryInterface sr = LocateSimpleRegistry.getRegistry(host, port);
 
 		System.out.println("located." + sr + "/n");
 

@@ -4,15 +4,48 @@ import util.Remote;
 
 public class RemoteObjectRef implements Remote {
 	private String ipAddr;
+
+	public String getIpAddr() {
+		return ipAddr;
+	}
+
+	public int getPort() {
+		return port;
+	}
+
+	public int getObjKey() {
+		return objKey;
+	}
+
+	public String getRemoteInterfaceName() {
+		return remoteInterfaceName;
+	}
+
+	public void setIpAddr(String ipAddr) {
+		this.ipAddr = ipAddr;
+	}
+
+	public void setPort(int port) {
+		this.port = port;
+	}
+
+	public void setObjKey(int objKey) {
+		this.objKey = objKey;
+	}
+
+	public void setRemoteInterfaceName(String remoteInterfaceName) {
+		this.remoteInterfaceName = remoteInterfaceName;
+	}
+
 	private int port;
 	private int objKey;
-	private String RemoteInterfaceName;
+	private String remoteInterfaceName;
 
 	public RemoteObjectRef(String ip, int port, int objKey, String riname) {
 		this.ipAddr = ip;
 		this.port = port;
 		this.objKey = objKey;
-		this.RemoteInterfaceName = riname;
+		this.remoteInterfaceName = riname;
 	}
 
 	// this method is important, since it is a stub creator.
@@ -46,7 +79,7 @@ public class RemoteObjectRef implements Remote {
 		info += "IP Address : " + this.ipAddr + "\n";
 		info += "Port Number : " + this.port + "\n";
 		info += "Object Key : " + this.objKey + "\n";
-		info += "Interface Name : " + this.RemoteInterfaceName + "\n";
+		info += "Interface Name : " + this.remoteInterfaceName + "\n";
 		return info;
 	}
 }

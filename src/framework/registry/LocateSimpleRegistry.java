@@ -1,4 +1,4 @@
-package framework;
+package framework.registry;
 
 import java.net.*;
 import java.io.*;
@@ -17,7 +17,7 @@ public class LocateSimpleRegistry {
 	 * @return SimpleRegistry that is resisted with this host and port
 	 * @throws IOException
 	 */
-	public static SimpleRegistry getRegistry(String host, int port)
+	public static RegistryInterface getRegistry(String host, int port)
 			throws IOException {
 		// open socket.
 		Socket socket = null;

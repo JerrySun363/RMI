@@ -1,12 +1,14 @@
 package exception;
 
+import java.io.Serializable;
+
 /**
- * TODO: Comment on the exception
+ * Comment on the exception
  * 
  * @author Jerry
  * 
  */
-public class RemoteServiceException extends Exception {
+public class RemoteServiceException extends Exception implements Serializable {
 
 	/**
 	 * 
