@@ -20,6 +20,7 @@ import java.net.*;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import framework.ListenerForClient;
 import framework.RORTable;
 
 public class RMI {
@@ -66,7 +67,6 @@ public class RMI {
 			initialskeleton = Class.forName(className + "_skel");
 		}
 		
-
 		// you should also create a remote object table here.
 		// it is a table of a ROR and a skeleton.
 		// as a hint, I give such a table's interface as RORtbl.java.
@@ -76,7 +76,7 @@ public class RMI {
 		Object o = initialclass.newInstance();
 
 		// then register it into the table.
-		table.addObject(host, port, o);
+		//table.addObject(host, port, o);
 		
 		// create a socket.
 		ServerSocket serverSoc = new ServerSocket(port);
@@ -92,7 +92,7 @@ public class RMI {
 		while (true) {
 			// (1) receives an invocation request.
 				Socket socket = serverSoc.accept();
-				new ListenerForClient(socket).start();
+				new ListenerForClient(table, socket).start();
 		}
 	}
 }

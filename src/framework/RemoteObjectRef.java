@@ -17,13 +17,13 @@ public class RemoteObjectRef implements Remote {
 		return port;
 	}
 
-	public int getObjKey() {
-		return objKey;
-	}
-
-	public String getRemoteInterfaceName() {
-		return remoteInterfaceName;
-	}
+//	public int getObjKey() {
+//		return objKey;
+//	}
+//
+//	public String getRemoteInterfaceName() {
+//		return remoteInterfaceName;
+//	}
 
 	public void setIpAddr(String ipAddr) {
 		this.ipAddr = ipAddr;
@@ -33,17 +33,13 @@ public class RemoteObjectRef implements Remote {
 		this.port = port;
 	}
 
-	public void setObjKey(int objKey) {
-		this.objKey = objKey;
-	}
-
-	public void setRemoteInterfaceName(String remoteInterfaceName) {
-		this.remoteInterfaceName = remoteInterfaceName;
-	}
-
-	private int port;
-	private int objKey;
-	private String remoteInterfaceName;
+//	public void setObjKey(int objKey) {
+//		this.objKey = objKey;
+//	}
+//
+//	public void setRemoteInterfaceName(String remoteInterfaceName) {
+//		this.remoteInterfaceName = remoteInterfaceName;
+//	}
 
 	public RemoteObjectRef(String host, int port, int objKey, String riname) {
 		this.host = host;
