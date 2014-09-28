@@ -17,6 +17,8 @@ package framework;
  */
 
 import java.net.*;
+import java.util.HashMap;
+import java.util.HashSet;
 
 public class RMI {
 	private static String host;
@@ -33,19 +35,35 @@ public class RMI {
 	 * @author Jerry Sun
 	 */
 	public static void main(String args[]) throws Exception {
-		String InitialClassName = args[0];
-		String registryHost = args[1];
-		int registryPort = Integer.parseInt(args[2]);
-		String serviceName = args[3];
-
+		
+		String registryHost = args[0];
+		int registryPort = Integer.parseInt(args[1]);
+		
+		int serviceNum = (args.length-2)/2;
+		
+		HashMap<String, String> serviceName_class = new HashMap<String, String>();
+		
+		for (int i = 0; i < serviceNum; i++) {
+			serviceName_class.put(args[2+i], args[3+i]);
+		}
+//		String serviceName = args[3];
+//		String InitialClassName = args[0];
+//		
 		host = (InetAddress.getLocalHost()).getHostName();
 		port = RMI.DEFAULT_PORT;
 
 		// it now have two classes from MainClassName:
 		// (1) the class itself (say ZipCpdeServerImpl) and
 		// (2) its skeleton.
-		Class initialclass = Class.forName(InitialClassName);
-		Class initialskeleton = Class.forName(InitialClassName + "_skel");
+		
+		Class initialclass = null;
+		Class initialskeleton = null;
+		
+		for (String className : serviceName_class.keySet() ) {
+			initialclass = Class.forName(className);
+			initialskeleton = Class.forName(className + "_skel");
+		}
+		
 
 		// you should also create a remote object table here.
 		// it is a table of a ROR and a skeleton.
@@ -72,6 +90,7 @@ public class RMI {
 		while (true) {
 			// (1) receives an invocation request.
 				Socket socket = serverSoc.accept();
+				new ListenerForClient(socket).start();
 		}
 	}
 }

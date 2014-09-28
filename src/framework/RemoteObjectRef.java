@@ -3,16 +3,16 @@ package framework;
 import util.Remote;
 
 public class RemoteObjectRef implements Remote {
-	private String ipAddr;
+	private String host;
 	private int port;
-	private int objKey;
-	private String RemoteInterfaceName;
+	//private int objKey;
+	//private String RemoteInterfaceName;
 
-	public RemoteObjectRef(String ip, int port, int objKey, String riname) {
-		this.ipAddr = ip;
+	public RemoteObjectRef(String host, int port, int objKey, String riname) {
+		this.host = host;
 		this.port = port;
-		this.objKey = objKey;
-		this.RemoteInterfaceName = riname;
+		//this.objKey = objKey;
+		//this.RemoteInterfaceName = riname;
 	}
 
 	// this method is important, since it is a stub creator.
@@ -43,10 +43,10 @@ public class RemoteObjectRef implements Remote {
 
 	public String toString() {
 		String info = "";
-		info += "IP Address : " + this.ipAddr + "\n";
+		info += "IP Address : " + this.host + "\n";
 		info += "Port Number : " + this.port + "\n";
-		info += "Object Key : " + this.objKey + "\n";
-		info += "Interface Name : " + this.RemoteInterfaceName + "\n";
+		//info += "Object Key : " + this.objKey + "\n";
+		//info += "Interface Name : " + this.RemoteInterfaceName + "\n";
 		return info;
 	}
 }

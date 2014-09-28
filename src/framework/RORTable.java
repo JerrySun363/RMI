@@ -23,13 +23,11 @@ public class RORTable {
 	// The host and port are not used unless it is exported outside.
 	// In any way, it is better to have it for uniformity.
 	public void addObj(String host, int port, Object o) {
-		
+		//table.put(new RemoteObjectRef(host, port, objKey, riname), o);
 	}
 
 	// given ror, find the corresponding object.
 	public Object findObj(RemoteObjectRef ror) {
-		// if you use a hash table this is easy.
-		
-		return null;
+		return table.get(ror);
 	}
 }
