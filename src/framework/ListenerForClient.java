@@ -82,16 +82,24 @@ public class ListenerForClient extends Thread {
 	public MethodReturn processMessage(MethodCall m){
 		// MethodCall
 		if(m.getRor()==null){
-			return new MethodReturn();
+			return null;
 		}
 		
 		Object object = this.table.findObj(m.getRor());
 		if(object == null){
-			return new MethodReturn();
+			return null;
 		}
 		try {
-			Method method = this.getClass().getMethod(m.getMethod());
-			method.invoke(object, m.getArgs());
+			Object[] args = m.getArgs();
+			Class<?>[] type = new Class[args.length];
+			int len = args.length;
+			for (int i = 0; i < len; i++) {
+				type[i] = args[i].getClass();
+			}
+			Method method = object.getClass().getMethod(m.getMethod(), type);
+			Object returnObject = method.invoke(object, m.getArgs());
+			MethodReturn mr = new MethodReturn(returnObject);
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
