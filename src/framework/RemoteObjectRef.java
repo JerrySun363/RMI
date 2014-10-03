@@ -1,11 +1,12 @@
 package framework;
 
+import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 
 import util.Remote;
 
-public class RemoteObjectRef implements Remote {
+public class RemoteObjectRef implements Remote, Serializable {
 	private String host;
 	private int port;
 	private int objKey;

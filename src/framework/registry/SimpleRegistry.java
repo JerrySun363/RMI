@@ -32,13 +32,14 @@ public class SimpleRegistry implements RegistryInterface {
 	public SimpleRegistry(String IPAdr, int portNum) {
 		this.host = IPAdr;
 		this.port = portNum;
+		
 	}
 
 	public void initSocket() {
 		try {
 			socket = new Socket(this.host, this.port);
 			out = new ObjectOutputStream(socket.getOutputStream());
-			in = new ObjectInputStream(socket.getInputStream());
+			
 		} catch (UnknownHostException e) {
 			System.out.println("Unknown Host Exception when initSocket!");
 			e.printStackTrace();
@@ -238,6 +239,14 @@ public class SimpleRegistry implements RegistryInterface {
 	 * @param message
 	 */
 	private RMIMessage readMessage() {
+		if(in==null){
+			try {
+				in = new ObjectInputStream(socket.getInputStream());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		RMIMessage message = null;
 		try {
 			message = (RMIMessage) (this.in.readObject());

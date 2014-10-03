@@ -39,6 +39,7 @@ public class ListenerForClient extends Thread {
 			ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 			ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 			
+			log("Accept socket from one client");
 			// (3) gets the invocation, in martiallled form.
 			RMIMessage message = (RMIMessage) in.readObject();
 			
