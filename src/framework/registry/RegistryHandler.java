@@ -1,10 +1,12 @@
 package framework.registry;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Hashtable;
 
 import util.Util;
-
 import message.BindMessage;
 import message.LocateMessage;
 import message.LookupMessage;
@@ -26,14 +28,26 @@ public class RegistryHandler implements Runnable {
 	private RMIMessage message;
 
 	public RegistryHandler(Socket socket,
-			Hashtable<String, RemoteObjectRef> table, RMIMessage message) {
+			Hashtable<String, RemoteObjectRef> table) {
 		this.socket = socket;
 		this.table = table;
-		this.message = message;
 	}
 
 	@Override
 	public void run() {
+		ObjectInputStream in;
+		
+		try {
+			in = new ObjectInputStream(socket.getInputStream());
+			
+			log("Accept socket from one client");
+			// (3) gets the invocation, in martiallled form.
+			message = (RMIMessage) in.readObject();
+		} catch (IOException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		RMIMessage msg = null;
 		switch (this.message.getType()) {
 		case BIND:
@@ -131,6 +145,10 @@ public class RegistryHandler implements Runnable {
 		lr.setResponse(locateMessage.getChallenge()
 				* locateMessage.getChallenge());
 		return lr;
+	}
+	
+	private void log(String info) {
+		System.out.println(info);
 	}
 
 }

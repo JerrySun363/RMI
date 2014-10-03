@@ -8,6 +8,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import sun.util.logging.resources.logging;
 import framework.RemoteObjectRef;
 
 /**
@@ -39,11 +40,11 @@ public class RMIRegistry implements Runnable {
 
 	@Override
 	public void run() {
-		ExecutorService service = Executors.newCachedThreadPool();
 		while (true) {
 			try {
 				Socket socket = this.serverSocket.accept();
-				//TODO: service.execute();
+				System.out.println(socket);
+				new RegistryHandler(socket, binding).run();
 				
 			} catch (IOException e) {
 				e.printStackTrace();

@@ -24,7 +24,7 @@ public class TestRebind {
 		String InterfaceName = args[6];
 
 		// make ROR.
-		RemoteObjectRef ror = new RemoteObjectRef(IPAdr, PortNum, ObjKey,
+		RemoteObjectRef ror = new RemoteObjectRef(IPAdr, PortNum,
 				InterfaceName);
 
 		// this is the ROR content.

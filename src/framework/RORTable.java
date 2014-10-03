@@ -11,10 +11,10 @@ public class RORTable {
 	// The table would have a key by ROR.
 
 	// make a new table.
-	Hashtable<String, Object> table;
+	Hashtable<RemoteObjectRef, Object> table;
 
 	public RORTable() {
-		this.table = new Hashtable<String, Object>();
+		this.table = new Hashtable<RemoteObjectRef, Object>();
 	}
 
 	// Add a remote object to the table.
@@ -22,8 +22,12 @@ public class RORTable {
 	// Using it, you can construct a ROR.
 	// The host and port are not used unless it is exported outside.
 	// In any way, it is better to have it for uniformity.
-	public void addObj(String host, int port, Object o) {
-		//table.put(new RemoteObjectRef(host, port, objKey, riname), o);
+//	public void addObj(String host, int port, String serviceName, Object o) {
+//		table.put(new RemoteObjectRef(host, port, serviceName), o);
+//	}
+	
+	public void addObj(RemoteObjectRef ror, Object o) {
+		table.put(ror, o);
 	}
 
 	public void addObject(RemoteObjectRef ror, Object o){
