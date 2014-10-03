@@ -35,10 +35,10 @@ public class RemoteObjectRef implements Remote {
 		this.remoteInterfaceName = remoteInterfaceName;
 	}
 
-	public RemoteObjectRef(String host, int port, int objKey, String riname) {
+	public RemoteObjectRef(String host, int port, String riname) {
 		this.host = host;
 		this.port = port;
-		this.objKey = objKey;
+		//this.objKey = objKey;
 		this.remoteInterfaceName = riname;
 	}
 
