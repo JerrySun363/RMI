@@ -25,12 +25,13 @@ public class LocateSimpleRegistry {
 			socket = new Socket(host, port);
 			ObjectOutputStream output = new ObjectOutputStream(
 					socket.getOutputStream());
-			ObjectInputStream input = new ObjectInputStream(
-					socket.getInputStream());
 
 			int challenge = (int) Math.round(Math.random() * 30);
 			LocateMessage locate = new LocateMessage(challenge);
 			output.writeObject(locate);
+			
+			ObjectInputStream input = new ObjectInputStream(
+					socket.getInputStream());
 			LocateResponse res = (LocateResponse) input.readObject();
 			if (res.getResponse() == challenge * challenge) {
 				return new SimpleRegistry(host, port);

@@ -9,4 +9,6 @@ public interface ZipCodeServer // extends YourRemote or whatever
 	public ZipCodeList findAll();
 
 	public void printAll();
+	
+	
 }
