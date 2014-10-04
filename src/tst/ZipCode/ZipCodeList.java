@@ -1,6 +1,12 @@
 package tst.ZipCode;
 
-public class ZipCodeList {
+import java.io.Serializable;
+
+public class ZipCodeList implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3554033668584564699L;
 	private String city;
 	private String ZipCode;
 	private ZipCodeList next;

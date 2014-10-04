@@ -43,7 +43,8 @@ public class ZipCodeServerImpl implements ZipCodeServer {
 	public ZipCodeList findAll() {
 		return l;
 	}
-
+ 
+	
 	// this method does printing in the remote site, not locally.
 	public void printAll() {
 		ZipCodeList temp = l;

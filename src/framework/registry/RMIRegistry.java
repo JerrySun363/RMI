@@ -45,7 +45,7 @@ public class RMIRegistry implements Runnable {
 				Socket socket = this.serverSocket.accept();
 				System.out.println(socket);
 				new RegistryHandler(socket, binding).run();
-				
+
 			} catch (IOException e) {
 				e.printStackTrace();
 				break;
