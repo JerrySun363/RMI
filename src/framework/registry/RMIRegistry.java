@@ -18,7 +18,7 @@ import framework.RemoteObjectRef;
  * @author Jerry Sun
  * 
  */
-public class RMIRegistry implements Runnable {
+public class RMIRegistry extends Thread {
 	private static final int DEFAULT_PORT = 1099;
 	private ServerSocket serverSocket = null;
 	private Hashtable<String, RemoteObjectRef> binding;
@@ -44,7 +44,7 @@ public class RMIRegistry implements Runnable {
 			try {
 				Socket socket = this.serverSocket.accept();
 				System.out.println(socket);
-				new RegistryHandler(socket, binding).run();
+				new Thread(new RegistryHandler(socket, binding)).run();
 				
 			} catch (IOException e) {
 				e.printStackTrace();

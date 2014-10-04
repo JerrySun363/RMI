@@ -52,11 +52,12 @@ public class RMI {
 		String serviceName = args[2];
 		String InitialClassName = args[3];
 		
-		host = (InetAddress.getLocalHost()).getHostName();
+		//host = (InetAddress.getLocalHost()).getHostName();
+		host = registryHost;
 		port = RMI.DEFAULT_PORT;
 
 		
-		RMIRegistry registry = new RMIRegistry();
+		(new RMIRegistry()).start();;
 		SimpleRegistry simpleRegistry = new SimpleRegistry("localhost", 1099);
 		
 		// it now have two classes from MainClassName:

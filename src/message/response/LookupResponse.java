@@ -11,7 +11,7 @@ public class LookupResponse extends AbstractResponse {
 	public LookupResponse() {
 		super();
 		super.setType(MessageType.LOOKUP_RESPONSE);
-		super.setSuccess(false);
+		super.setSuccess(true);
 	}
 
 	public LookupResponse(RemoteObjectRef ror) {

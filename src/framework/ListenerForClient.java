@@ -44,6 +44,7 @@ public class ListenerForClient extends Thread {
 			RMIMessage message = (RMIMessage) in.readObject();
 			
 			MethodReturn mr = processMessage((MethodCall)message);
+			
 			out.writeObject(mr);
 
 		} catch (IOException e) {
@@ -105,6 +106,9 @@ public class ListenerForClient extends Thread {
 			}
 			Method method = object.getClass().getMethod(m.getMethod(), type);
 			Object returnObject = method.invoke(object, m.getArgs());
+			
+			returnObject.getClass().getInterfaces()
+			
 			mr = new MethodReturn(returnObject);
 			
 			
