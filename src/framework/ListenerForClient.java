@@ -6,7 +6,6 @@ import java.io.ObjectOutputStream;
 import java.lang.reflect.Method;
 import java.net.Socket;
 
-import framework.registry.RMI;
 import message.MethodCall;
 import message.RMIMessage;
 import message.response.MethodReturn;
@@ -27,24 +26,25 @@ public class ListenerForClient extends Thread {
 	public ListenerForClient(RORTable table, Socket socket) throws IOException {
 		this.table = table;
 		this.socket = socket;
-		
+
 	}
 
 	@Override
 	public void run() {
 
-		
 		try {
 			// (2) creates a socket and input/output streams.
-			ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-			ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-			
+			ObjectInputStream in = new ObjectInputStream(
+					socket.getInputStream());
+			ObjectOutputStream out = new ObjectOutputStream(
+					socket.getOutputStream());
+
 			log("Accept socket from one client");
 			// (3) gets the invocation, in martiallled form.
 			RMIMessage message = (RMIMessage) in.readObject();
-			
-			MethodReturn mr = processMessage((MethodCall)message);
-			
+
+			MethodReturn mr = processMessage((MethodCall) message);
+
 			out.writeObject(mr);
 
 		} catch (IOException e) {
@@ -70,30 +70,31 @@ public class ListenerForClient extends Thread {
 
 	/**
 	 * TODO: Add return support.
+	 * 
 	 * @param m
 	 * @return
 	 */
-	
+
 	// (4) gets the real object reference from tbl.
 
-			// (5) Either:
-			// -- using the interface name, asks the skeleton,
-			// together with the object reference, to unmartial
-			// and invoke the real object.
-			// -- or do unmarshalling directly and involkes that
-			// object directly.
-			// (6) receives the return value, which (if not marshalled
-			// you should marshal it here) and send it out to the
-			// the source of the invoker.
-			// (7) closes the socket.
-	public MethodReturn processMessage(MethodCall m){
+	// (5) Either:
+	// -- using the interface name, asks the skeleton,
+	// together with the object reference, to unmartial
+	// and invoke the real object.
+	// -- or do unmarshalling directly and involkes that
+	// object directly.
+	// (6) receives the return value, which (if not marshalled
+	// you should marshal it here) and send it out to the
+	// the source of the invoker.
+	// (7) closes the socket.
+	public MethodReturn processMessage(MethodCall m) {
 		// MethodCall
-		if(m.getRor()==null){
+		if (m.getRor() == null) {
 			return null;
 		}
-		
+
 		Object object = this.table.findObj(m.getRor());
-		if(object == null){
+		if (object == null) {
 			return null;
 		}
 		MethodReturn mr = null;
@@ -110,20 +111,12 @@ public class ListenerForClient extends Thread {
 			} else {
 				method = object.getClass().getMethod(m.getMethod());
 			}
-			
-			
 
-			
 			Object returnObject = method.invoke(object, m.getArgs());
-			
-			//returnObject.getClass().getInterfaces()
-			
 			mr = new MethodReturn(returnObject);
-			
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
-			// TODO: handle exception
 		}
 		return mr;
 	}

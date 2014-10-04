@@ -39,26 +39,9 @@ public class RemoteObjectRef implements Remote, Serializable {
 	public RemoteObjectRef(String host, int port, String riname) {
 		this.host = host;
 		this.port = port;
-		//this.objKey = objKey;
+		// this.objKey = objKey;
 		this.remoteInterfaceName = riname;
 	}
-	
-//	@Override
-//	public boolean equals(Object obj) {
-//		if (obj == null) {
-//			return false;
-//		}
-//		if (getClass() != obj.getClass()) {
-//	        return false;
-//	    }
-//	    RemoteObjectRef newObj = (RemoteObjectRef) obj;
-//		
-//	    if (!this.host.equals(newObj.getHost()) || this.port != newObj.getPort() 
-//	    			|| !this.remoteInterfaceName.equals(newObj.getRemoteInterfaceName())) {
-//	        return false;
-//	    }
-//	    return true;
-//	}
 
 	/**
 	 * 
@@ -97,7 +80,9 @@ public class RemoteObjectRef implements Remote, Serializable {
 		this.host = host;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -113,7 +98,9 @@ public class RemoteObjectRef implements Remote, Serializable {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override

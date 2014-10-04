@@ -3,7 +3,7 @@ package message.response;
 import message.MessageType;
 import framework.RemoteObjectRef;
 
-public class MethodReturn extends AbstractResponse implements util.Remote {
+public class MethodReturn extends AbstractResponse {
 
 	private static final long serialVersionUID = 2176958159170938794L;
 	private Object object;

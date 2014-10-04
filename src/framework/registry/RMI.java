@@ -38,24 +38,14 @@ public class RMI {
 	 * @author Jerry Sun
 	 */
 	public static void main(String args[]) throws Exception {
-
 		String registryHost = args[0];
 		int registryPort = Integer.parseInt(args[1]);
-
-		int serviceNum = (args.length - 2) / 2;
-
-		// HashMap<String, String> serviceName_class = new HashMap<String,
-		// String>();
-		//
-		// for (int i = 0; i < serviceNum; i++) {
-		// serviceName_class.put(args[2 + i], args[3 + i]);
-		// }
 		String serviceName = args[2];
 		String InitialClassName = args[3];
 
 		// host = (InetAddress.getLocalHost()).getHostName();
 		host = registryHost;
-		port = RMI.DEFAULT_PORT;
+		port = registryPort;
 
 		(new RMIRegistry()).start();
 		SimpleRegistry simpleRegistry = new SimpleRegistry("localhost", 1099);
@@ -64,7 +54,7 @@ public class RMI {
 		// (1) the class itself (say ZipCpdeServerImpl) and
 		// (2) its skeleton.
 
-		Class initialclass = null;
+		Class<?> initialclass = null;
 		// Class initialskeleton = null;
 
 		// for (String className : serviceName_class.keySet()) {

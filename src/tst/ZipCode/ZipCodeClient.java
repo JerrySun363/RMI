@@ -66,14 +66,14 @@ public class ZipCodeClient {
 		}
 
 		// test the initialise.
-		//zcs.initialise(l);
+		zcs.initialise(l);
 		System.out.println("\n Server initalised.");
 
 		// test sum
 		Integer result = zcs.sum(new Integer(15), new Integer(20));
 		System.out.println("\n Server calculated: 15 + 20 is " + result.intValue());
 
-		// test the find.
+		/*// test the find.
 		System.out.println("\n This is the remote list given by find.");
 		temp = l;
 		while (temp != null) {
@@ -97,6 +97,6 @@ public class ZipCodeClient {
 		// test the printall.
 		System.out.println("\n We test the remote site printing.");
 		// here is a test.
-		zcs.printAll();
+		zcs.printAll();*/
 	}
 }

@@ -22,18 +22,14 @@ public class RORTable {
 	// Using it, you can construct a ROR.
 	// The host and port are not used unless it is exported outside.
 	// In any way, it is better to have it for uniformity.
-//	public void addObj(String host, int port, String serviceName, Object o) {
-//		table.put(new RemoteObjectRef(host, port, serviceName), o);
-//	}
-	
+	// public void addObj(String host, int port, String serviceName, Object o) {
+	// table.put(new RemoteObjectRef(host, port, serviceName), o);
+	// }
+
 	public void addObj(RemoteObjectRef ror, Object o) {
 		table.put(ror, o);
 	}
 
-	public void addObject(RemoteObjectRef ror, Object o){
-		
-	}
-	
 	// given ror, find the corresponding object.
 	public Object findObj(RemoteObjectRef ror) {
 		return table.get(ror);
