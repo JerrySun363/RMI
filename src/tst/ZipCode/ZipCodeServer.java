@@ -10,6 +10,6 @@ public interface ZipCodeServer // extends YourRemote or whatever
 
 	public void printAll();
 
-	public int sum(int int1, int int2);
+	public Integer sum(Integer int1, Integer int2);
 
 }

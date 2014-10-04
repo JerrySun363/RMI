@@ -54,8 +54,7 @@ public class ZipCodeServerImpl implements ZipCodeServer {
 		}
 	}
 
-	@Override
-	public int sum(int int1, int int2) {
+	public Integer sum(Integer int1, Integer int2) {
 		return int1 + int2;
 	}
 }
