@@ -32,14 +32,14 @@ public class SimpleRegistry implements RegistryInterface {
 	public SimpleRegistry(String IPAdr, int portNum) {
 		this.host = IPAdr;
 		this.port = portNum;
-		
+
 	}
 
 	public void initSocket() {
 		try {
 			socket = new Socket(this.host, this.port);
 			out = new ObjectOutputStream(socket.getOutputStream());
-			
+			in = new ObjectInputStream(socket.getInputStream());
 		} catch (UnknownHostException e) {
 			System.out.println("Unknown Host Exception when initSocket!");
 			e.printStackTrace();
@@ -50,21 +50,21 @@ public class SimpleRegistry implements RegistryInterface {
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see framework.registry.RegistryInterface#lookup(java.lang.String)
 	 */
 	@Override
 	public RemoteObjectRef lookup(String serviceName)
 			throws RemoteServiceException {
+		this.initSocket();
 		if (serviceName == null || serviceName.length() == 0) {
 			System.out.println("Please input valid service name!");
 			return null;
 		}
 
 		System.out.println("Start look up service: " + serviceName);
-		if (this.socket == null) {
-			this.initSocket();
-		}
 
 		LookupMessage lookup = new LookupMessage(serviceName);
 		this.writeMessage(lookup);
@@ -87,12 +87,16 @@ public class SimpleRegistry implements RegistryInterface {
 		return ror;
 	}
 
-	/* (non-Javadoc)
-	 * @see framework.registry.RegistryInterface#bind(java.lang.String, framework.RemoteObjectRef)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see framework.registry.RegistryInterface#bind(java.lang.String,
+	 * framework.RemoteObjectRef)
 	 */
 	@Override
 	public void bind(String serviceName, RemoteObjectRef ror)
 			throws RemoteServiceException {
+		this.initSocket();
 		// Check RoR.
 		if (ror == null) {
 			System.out.println("Please input valid Remote Object Reference!");
@@ -129,12 +133,16 @@ public class SimpleRegistry implements RegistryInterface {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see framework.registry.RegistryInterface#rebind(java.lang.String, framework.RemoteObjectRef)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see framework.registry.RegistryInterface#rebind(java.lang.String,
+	 * framework.RemoteObjectRef)
 	 */
 	@Override
 	public void rebind(String serviceName, RemoteObjectRef ror)
 			throws RemoteServiceException {
+		this.initSocket();
 		// Check RoR.
 		if (ror == null) {
 			System.out.println("Please input valid Remote Object Reference!");
@@ -144,10 +152,6 @@ public class SimpleRegistry implements RegistryInterface {
 		if (serviceName == null || serviceName.isEmpty()) {
 			System.out.println("Please input valid service name!");
 			return;
-		}
-
-		if (this.socket == null) {
-			this.initSocket();
 		}
 		RebindMessage message = new RebindMessage(serviceName, ror);
 		this.writeMessage(message);
@@ -170,18 +174,17 @@ public class SimpleRegistry implements RegistryInterface {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see framework.registry.RegistryInterface#unbind(java.lang.String)
 	 */
 	@Override
 	public void unbind(String serviceName) throws RemoteServiceException {
+		this.initSocket();
 		if (serviceName == null || serviceName.isEmpty()) {
 			System.out.println("Please input valid service name!");
 			return;
-		}
-
-		if (this.socket == null) {
-			this.initSocket();
 		}
 		UnbindMessage message = new UnbindMessage(serviceName);
 		this.writeMessage(message);
@@ -239,14 +242,6 @@ public class SimpleRegistry implements RegistryInterface {
 	 * @param message
 	 */
 	private RMIMessage readMessage() {
-		if(in==null){
-			try {
-				in = new ObjectInputStream(socket.getInputStream());
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 		RMIMessage message = null;
 		try {
 			message = (RMIMessage) (this.in.readObject());
