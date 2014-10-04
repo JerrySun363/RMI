@@ -40,40 +40,29 @@ public class RMI {
 	public static void main(String args[]) throws Exception {
 		String registryHost = args[0];
 		int registryPort = Integer.parseInt(args[1]);
-		String serviceName = args[2];
-		String InitialClassName = args[3];
+		
+		int serviceNum = (args.length-2)/2;
+		
+		HashMap<String, String> serviceClassMap = new HashMap<String, String>();
+		for (int i = 0; i < serviceNum; i++) {
+			serviceClassMap.put(args[2+i*2], args[3+i*2]);
+		}
 
-		// host = (InetAddress.getLocalHost()).getHostName();
 		host = registryHost;
 		port = registryPort;
 
 		(new RMIRegistry()).start();
+		
 		SimpleRegistry simpleRegistry = new SimpleRegistry("localhost", 1099);
-
-		// it now have two classes from MainClassName:
-		// (1) the class itself (say ZipCpdeServerImpl) and
-		// (2) its skeleton.
-
-		Class<?> initialclass = null;
-		// Class initialskeleton = null;
-
-		// for (String className : serviceName_class.keySet()) {
-		initialclass = Class.forName(InitialClassName);
-		// initialskeleton = Class.forName(className + "_skel");
-		// }
-
-		// you should also create a remote object table here.
-		// it is a table of a ROR and a skeleton.
-		// as a hint, I give such a table's interface as RORtbl.java.
+		
 		RORTable table = new RORTable();
-
-		// after that, you create one remote object of initialclass.
-		Object o = initialclass.newInstance();
-
-		// then register it into the table.
-		RemoteObjectRef ror = new RemoteObjectRef(host, port, serviceName);
-		table.addObj(ror, o);
-		simpleRegistry.bind(serviceName, ror);
+		
+		for (String serviceName : serviceClassMap.keySet()) {
+			Object o = Class.forName(serviceClassMap.get(serviceName)).newInstance();
+			RemoteObjectRef ror = new RemoteObjectRef(host, port, serviceName);
+			table.addObj(ror, o);
+			simpleRegistry.bind(serviceName, ror);
+		}
 
 		// create a socket.
 		ServerSocket serverSoc = new ServerSocket(port);
