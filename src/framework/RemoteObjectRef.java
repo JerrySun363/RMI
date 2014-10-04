@@ -42,6 +42,23 @@ public class RemoteObjectRef implements Remote, Serializable {
 		//this.objKey = objKey;
 		this.remoteInterfaceName = riname;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+	        return false;
+	    }
+	    RemoteObjectRef newObj = (RemoteObjectRef) obj;
+		
+	    if (!this.host.equals(newObj.getHost()) || this.port != newObj.getPort() 
+	    			|| !this.remoteInterfaceName.equals(newObj.getRemoteInterfaceName())) {
+	        return false;
+	    }
+	    return true;
+	}
 
 	/**
 	 * 

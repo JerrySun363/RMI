@@ -107,7 +107,7 @@ public class ListenerForClient extends Thread {
 			Method method = object.getClass().getMethod(m.getMethod(), type);
 			Object returnObject = method.invoke(object, m.getArgs());
 			
-			returnObject.getClass().getInterfaces()
+			//returnObject.getClass().getInterfaces()
 			
 			mr = new MethodReturn(returnObject);
 			
