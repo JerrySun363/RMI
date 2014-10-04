@@ -31,6 +31,7 @@ public class Util {
 				outputMap.put(socket, out);
 			}
 			out.writeObject(message);
+			out.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
