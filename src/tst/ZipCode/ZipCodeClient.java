@@ -68,6 +68,11 @@ public class ZipCodeClient {
 		zcs.initialise(l);
 		System.out.println("\n Server initalised.");
 
+		//test sum 
+		int result = zcs.sum(15, 20);
+		System.out.println("\n Server calculated: 15 + 20 is " + result);
+
+		
 		// test the find.
 		System.out.println("\n This is the remote list given by find.");
 		temp = l;
