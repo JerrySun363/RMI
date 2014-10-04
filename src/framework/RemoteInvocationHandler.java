@@ -1,6 +1,8 @@
 package framework;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.net.Socket;
@@ -32,12 +34,21 @@ public class RemoteInvocationHandler implements InvocationHandler {
 	@Override
 	public Object invoke(Object proxy, Method method, Object[] args)
 			throws Throwable {
+		this.setSocket(new Socket(this.host, this.port));
 		MethodCall methodCall = new MethodCall();
 		methodCall.setArgs(args);
 		methodCall.setMethod(method.getName());
 		methodCall.setRor(ror);
-		Util.writeMessage(socket, methodCall);
-		RMIMessage message = Util.readMessage(socket);
+		// Util.writeMessage(socket, methodCall);
+		ObjectOutputStream out = new ObjectOutputStream(
+				this.socket.getOutputStream());
+		out.writeObject(methodCall);
+		ObjectInputStream in = new ObjectInputStream(
+				this.socket.getInputStream());
+
+		RMIMessage message = (RMIMessage) in.readObject();
+		this.getSocket().close();
+		// RMIMessage message = Util.readMessage(socket);
 		if (message.getType() != MessageType.METHOD_RETURN) {
 			return null;
 		} else {
