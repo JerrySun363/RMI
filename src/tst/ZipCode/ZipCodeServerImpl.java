@@ -43,8 +43,7 @@ public class ZipCodeServerImpl implements ZipCodeServer {
 	public ZipCodeList findAll() {
 		return l;
 	}
- 
-	
+
 	// this method does printing in the remote site, not locally.
 	public void printAll() {
 		ZipCodeList temp = l;
@@ -53,5 +52,10 @@ public class ZipCodeServerImpl implements ZipCodeServer {
 					+ temp.getZipCode() + "\n");
 			temp = temp.getNext();
 		}
+	}
+
+	@Override
+	public int sum(int int1, int int2) {
+		return int1 + int2;
 	}
 }
