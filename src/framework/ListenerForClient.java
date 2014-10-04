@@ -42,7 +42,6 @@ public class ListenerForClient extends Thread {
 			log("Accept socket from one client");
 			// (3) gets the invocation, in martiallled form.
 			RMIMessage message = (RMIMessage) in.readObject();
-			
 			MethodReturn mr = processMessage((MethodCall)message);
 			
 			out.writeObject(mr);
@@ -99,12 +98,18 @@ public class ListenerForClient extends Thread {
 		MethodReturn mr = null;
 		try {
 			Object[] args = m.getArgs();
-			Class<?>[] type = new Class[args.length];
-			int len = args.length;
-			for (int i = 0; i < len; i++) {
-				type[i] = args[i].getClass();
+			Method method = null;
+			if (args != null) {
+				Class<?>[] type = new Class[args.length];
+				int len = args.length;
+				for (int i = 0; i < len; i++) {
+					type[i] = args[i].getClass();
+				}
+				method = object.getClass().getMethod(m.getMethod(), type);
+			} else {
+				method = object.getClass().getMethod(m.getMethod());
 			}
-			Method method = object.getClass().getMethod(m.getMethod(), type);
+			
 			Object returnObject = method.invoke(object, m.getArgs());
 			
 			//returnObject.getClass().getInterfaces()
@@ -113,6 +118,7 @@ public class ListenerForClient extends Thread {
 			
 			
 		} catch (Exception e) {
+			e.printStackTrace();
 			// TODO: handle exception
 		}
 		return mr;
