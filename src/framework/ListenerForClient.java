@@ -42,6 +42,7 @@ public class ListenerForClient extends Thread {
 			log("Accept socket from one client");
 			// (3) gets the invocation, in martiallled form.
 			RMIMessage message = (RMIMessage) in.readObject();
+			
 			MethodReturn mr = processMessage((MethodCall)message);
 			
 			out.writeObject(mr);
@@ -109,6 +110,9 @@ public class ListenerForClient extends Thread {
 			} else {
 				method = object.getClass().getMethod(m.getMethod());
 			}
+			
+			
+
 			
 			Object returnObject = method.invoke(object, m.getArgs());
 			
