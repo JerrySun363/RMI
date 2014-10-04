@@ -36,10 +36,10 @@ public class RegistryHandler implements Runnable {
 	@Override
 	public void run() {
 		ObjectInputStream in;
-		
+
 		try {
 			in = new ObjectInputStream(socket.getInputStream());
-			
+
 			log("Accept socket from one client");
 			// (3) gets the invocation, in martiallled form.
 			message = (RMIMessage) in.readObject();
@@ -47,7 +47,7 @@ public class RegistryHandler implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		RMIMessage msg = null;
 		switch (this.message.getType()) {
 		case BIND:
@@ -75,9 +75,16 @@ public class RegistryHandler implements Runnable {
 			break;
 		}
 		if (msg != null) {
-			Util.writeMessage(this.socket, msg);
-		}
+			try {
+				ObjectOutputStream out = new ObjectOutputStream(
+						this.socket.getOutputStream());
+				out.writeObject(msg);
 
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		}
 	}
 
 	private RMIMessage lookup(LookupMessage message) {
@@ -146,7 +153,7 @@ public class RegistryHandler implements Runnable {
 				* locateMessage.getChallenge());
 		return lr;
 	}
-	
+
 	private void log(String info) {
 		System.out.println(info);
 	}
