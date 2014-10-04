@@ -52,7 +52,7 @@ public class RemoteInvocationHandler implements InvocationHandler {
 		if (message.getType() != MessageType.METHOD_RETURN) {
 			return null;
 		} else {
-			return (MethodReturn) message;
+			return ((MethodReturn) message).getObject();
 		}
 	}
 

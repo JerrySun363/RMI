@@ -26,7 +26,8 @@ public class ZipCodeClient {
 	// (1) a port.
 	// (2) a service name.
 	// (3) a file name as above.
-	public static void main(String[] args) throws IOException, RemoteServiceException {
+	public static void main(String[] args) throws IOException,
+			RemoteServiceException {
 		String host = args[0];
 		int port = Integer.parseInt(args[1]);
 		String serviceName = args[2];
@@ -65,14 +66,13 @@ public class ZipCodeClient {
 		}
 
 		// test the initialise.
-		zcs.initialise(l);
+		//zcs.initialise(l);
 		System.out.println("\n Server initalised.");
 
-		//test sum 
-		int result = zcs.sum(15, 20);
-		System.out.println("\n Server calculated: 15 + 20 is " + result);
+		// test sum
+		Integer result = zcs.sum(new Integer(15), new Integer(20));
+		System.out.println("\n Server calculated: 15 + 20 is " + result.intValue());
 
-		
 		// test the find.
 		System.out.println("\n This is the remote list given by find.");
 		temp = l;
