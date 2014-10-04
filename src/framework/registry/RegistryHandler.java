@@ -6,7 +6,6 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Hashtable;
 
-import util.Util;
 import message.BindMessage;
 import message.LocateMessage;
 import message.LookupMessage;
