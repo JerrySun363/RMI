@@ -59,7 +59,8 @@ public class RMI {
 		
 		for (String serviceName : serviceClassMap.keySet()) {
 			Object o = Class.forName(serviceClassMap.get(serviceName)).newInstance();
-			RemoteObjectRef ror = new RemoteObjectRef(host, port, serviceName);
+			Class<?>[] types =  o.getClass().getInterfaces();
+			RemoteObjectRef ror = new RemoteObjectRef(host, port, types[0].getName());
 			table.addObj(ror, o);
 			simpleRegistry.bind(serviceName, ror);
 		}
