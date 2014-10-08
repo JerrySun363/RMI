@@ -17,7 +17,8 @@ import message.response.RebindResponse;
 
 /**
  * 
- * @author Jerry
+ * @author Jerry Sun
+ * 
  * @see {http://docs.oracle.com/javase/7/docs/api/java/rmi/Naming.html}
  */
 public class SimpleRegistry implements RegistryInterface {
@@ -38,8 +39,6 @@ public class SimpleRegistry implements RegistryInterface {
 	public void initSocket() {
 		try {
 			socket = new Socket(this.host, this.port);
-			out = new ObjectOutputStream(socket.getOutputStream());
-			in = new ObjectInputStream(socket.getInputStream());
 		} catch (UnknownHostException e) {
 			System.out.println("Unknown Host Exception when initSocket!");
 			e.printStackTrace();
@@ -181,11 +180,11 @@ public class SimpleRegistry implements RegistryInterface {
 	 */
 	@Override
 	public void unbind(String serviceName) throws RemoteServiceException {
-		this.initSocket();
 		if (serviceName == null || serviceName.isEmpty()) {
 			System.out.println("Please input valid service name!");
 			return;
 		}
+		this.initSocket();
 		UnbindMessage message = new UnbindMessage(serviceName);
 		this.writeMessage(message);
 		System.out.println("Unbind Message sent!");
@@ -229,6 +228,7 @@ public class SimpleRegistry implements RegistryInterface {
 	 */
 	private void writeMessage(RMIMessage message) {
 		try {
+			out = new ObjectOutputStream(this.socket.getOutputStream());
 			this.out.writeObject(message);
 		} catch (IOException e) {
 			System.out.println("Error when writing new Messages!");
@@ -244,6 +244,7 @@ public class SimpleRegistry implements RegistryInterface {
 	private RMIMessage readMessage() {
 		RMIMessage message = null;
 		try {
+			in = new ObjectInputStream(socket.getInputStream());
 			message = (RMIMessage) (this.in.readObject());
 		} catch (IOException e) {
 			System.out.println("I/O Exception during read object!");
