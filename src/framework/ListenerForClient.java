@@ -13,7 +13,7 @@ import message.response.MethodReturn;
 /**
  * This class entends Thread to implement multi-thread dealing with RMI Look up.
  * 
- * Since it is in multi threads mode now, we should be careful about the
+ * Since it is in multi-threads mode now, we should be careful about the
  * concurrency issues.
  * 
  * @author Nicolas_Yu
@@ -25,7 +25,8 @@ public class ListenerForClient extends Thread {
 	private Socket socket;
 	private RORTable table;
 
-	public ListenerForClient(String host, int port, RORTable table, Socket socket) throws IOException {
+	public ListenerForClient(String host, int port, RORTable table,
+			Socket socket) throws IOException {
 		this.host = host;
 		this.port = port;
 		this.table = table;
@@ -72,14 +73,14 @@ public class ListenerForClient extends Thread {
 	}
 
 	/**
-	 * TODO: Add return support.
+	 * The server side class dealing with each incoming method call message.
 	 * 
 	 * @param m
-	 * @return
+	 *            - the method call message
+	 * @return the methodreturn object including the returned value or RoR.
 	 */
 
 	// (4) gets the real object reference from tbl.
-
 	// (5) Either:
 	// -- using the interface name, asks the skeleton,
 	// together with the object reference, to unmartial
@@ -116,21 +117,24 @@ public class ListenerForClient extends Thread {
 			}
 			boolean isRemote = false;
 			Object returnObject = method.invoke(object, m.getArgs());
-			
+
 			// when the retunObject is null
 			if (returnObject == null) {
 				return new MethodReturn(null);
 			}
-			Class<?>[] interfaceList = returnObject.getClass().getInterfaces()[0].getInterfaces();
-			
+			Class<?>[] interfaceList = returnObject.getClass().getInterfaces()[0]
+					.getInterfaces();
+
 			for (Class<?> temp : interfaceList) {
 				System.out.println(temp.getName());
-				if (temp.getName().contains("Remote")) {
+				if (temp.getName().contains("Remote")) {// whether it implements
+														// Remote
 					isRemote = true;
 				}
 			}
 			if (isRemote) {
-				RemoteObjectRef ror = new RemoteObjectRef(this.host, this.port, returnObject.getClass().getInterfaces()[0].getName());
+				RemoteObjectRef ror = new RemoteObjectRef(this.host, this.port,
+						returnObject.getClass().getInterfaces()[0].getName());
 				this.table.addObj(ror, returnObject);
 				mr = new MethodReturn(ror);
 			} else {

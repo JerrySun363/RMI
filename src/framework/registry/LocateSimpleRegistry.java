@@ -12,10 +12,13 @@ public class LocateSimpleRegistry {
 	 * LocateSimpleRegistry.getRegistry(123.123.123.123, 2048) and it returns
 	 * null if there is none, else it returns the registry.
 	 * 
+	 * @author Jerry Sun
+	 * 
 	 * @param host
 	 * @param port
 	 * @return SimpleRegistry that is resisted with this host and port
 	 * @throws IOException
+	 * 
 	 */
 	public static RegistryInterface getRegistry(String host, int port)
 			throws IOException {
@@ -29,7 +32,7 @@ public class LocateSimpleRegistry {
 			int challenge = (int) Math.round(Math.random() * 30);
 			LocateMessage locate = new LocateMessage(challenge);
 			output.writeObject(locate);
-			
+
 			ObjectInputStream input = new ObjectInputStream(
 					socket.getInputStream());
 			LocateResponse res = (LocateResponse) input.readObject();

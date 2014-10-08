@@ -1,4 +1,4 @@
-package framework.registry;
+package framework;
 
 /** 
  * This does not offer the code of the whole communication module (CM) for RMI: 
@@ -19,9 +19,8 @@ package framework.registry;
 import java.net.*;
 import java.util.HashMap;
 
-import framework.ListenerForClient;
-import framework.RORTable;
-import framework.RemoteObjectRef;
+import framework.registry.RMIRegistry;
+import framework.registry.SimpleRegistry;
 
 public class RMI {
 	private static String host;

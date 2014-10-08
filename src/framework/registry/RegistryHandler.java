@@ -20,6 +20,12 @@ import message.response.UnbindResponse;
 import exception.RemoteServiceException;
 import framework.RemoteObjectRef;
 
+/**
+ * Registry Server side single thread handler for simple operation.
+ * 
+ * @author Jerry Sun
+ * 
+ */
 public class RegistryHandler implements Runnable {
 
 	private Socket socket;

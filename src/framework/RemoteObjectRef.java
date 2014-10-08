@@ -4,18 +4,22 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 
+/**
+ * We rewrite the ROR's equal method in this class, so that we can omit the
+ * objkey field.
+ * 
+ * @author Nicolas Yu
+ * 
+ */
 public class RemoteObjectRef implements Serializable {
+
+	private static final long serialVersionUID = 8035678189759683561L;
 	private String host;
 	private int port;
-	private int objKey;
 	private String remoteInterfaceName;
 
 	public int getPort() {
 		return port;
-	}
-
-	public int getObjKey() {
-		return objKey;
 	}
 
 	public String getRemoteInterfaceName() {
@@ -24,10 +28,6 @@ public class RemoteObjectRef implements Serializable {
 
 	public void setPort(int port) {
 		this.port = port;
-	}
-
-	public void setObjKey(int objKey) {
-		this.objKey = objKey;
 	}
 
 	public void setRemoteInterfaceName(String remoteInterfaceName) {
@@ -43,9 +43,9 @@ public class RemoteObjectRef implements Serializable {
 
 	/**
 	 * 
-	 * @return localised object
+	 * @return localized object
 	 */
-	public Object localise() {
+	public Object localize() {
 		Object object = null;
 
 		try {
@@ -65,7 +65,6 @@ public class RemoteObjectRef implements Serializable {
 		String info = "";
 		info += "IP Address : " + this.host + "\n";
 		info += "Port Number : " + this.port + "\n";
-		info += "Object Key : " + this.objKey + "\n";
 		info += "Interface Name : " + this.remoteInterfaceName + "\n";
 		return info;
 	}

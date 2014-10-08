@@ -38,7 +38,7 @@ public class ZipCodeRListClient {
 		RemoteObjectRef ror = sr.lookup(serviceName);
 
 		// get (create) the stub out of ror.
-		ZipCodeRList rl = (ZipCodeRList) ror.localise();
+		ZipCodeRList rl = (ZipCodeRList) ror.localize();
 
 		// reads the data and make a "local" zip code list.
 		// later this is sent to the server.
