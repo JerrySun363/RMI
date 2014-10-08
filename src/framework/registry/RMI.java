@@ -79,7 +79,7 @@ public class RMI {
 		while (true) {
 			// (1) receives an invocation request.
 			Socket socket = serverSoc.accept();
-			new ListenerForClient(table, socket).start();
+			new ListenerForClient(host, port, table, socket).start();
 		}
 	}
 }

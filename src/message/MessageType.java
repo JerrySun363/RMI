@@ -31,5 +31,7 @@ public enum MessageType {
 	// Exception
 	EXCEPTION,
 	// Locate
-	LOCATE, LOCATE_RESPONSE;
+	LOCATE, 
+	
+	LOCATE_RESPONSE;
 }

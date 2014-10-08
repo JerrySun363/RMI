@@ -6,7 +6,7 @@ import java.lang.reflect.Proxy;
 
 import util.Remote;
 
-public class RemoteObjectRef implements Remote, Serializable {
+public class RemoteObjectRef implements Serializable {
 	private String host;
 	private int port;
 	private int objKey;

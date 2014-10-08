@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.Method;
 import java.net.Socket;
+import java.rmi.Remote;
 
 import message.MethodCall;
 import message.RMIMessage;
@@ -20,13 +21,16 @@ import message.response.MethodReturn;
  */
 public class ListenerForClient extends Thread {
 
+	private String host;
+	private int port;
 	private Socket socket;
 	private RORTable table;
 
-	public ListenerForClient(RORTable table, Socket socket) throws IOException {
+	public ListenerForClient(String host, int port, RORTable table, Socket socket) throws IOException {
+		this.host = host;
+		this.port = port;
 		this.table = table;
 		this.socket = socket;
-
 	}
 
 	@Override
@@ -111,9 +115,21 @@ public class ListenerForClient extends Thread {
 			} else {
 				method = object.getClass().getMethod(m.getMethod());
 			}
-
+			boolean isRemote = false;
 			Object returnObject = method.invoke(object, m.getArgs());
-			mr = new MethodReturn(returnObject);
+			Class<?>[] interfaceList = returnObject.getClass().getInterfaces();
+			for (Class<?> temp : interfaceList) {
+				if (temp.getName().contains("Remote")) {
+					isRemote = true;
+				}
+			}
+			if (isRemote) {
+				RemoteObjectRef ror = new RemoteObjectRef(this.host, this.port, interfaceList[0].getName());
+				this.table.addObj(ror, returnObject);
+				mr = new MethodReturn(ror);
+			} else {
+				mr = new MethodReturn(returnObject);
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();

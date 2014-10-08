@@ -26,7 +26,6 @@ public class RemoteInvocationHandler implements InvocationHandler {
 	@Override
 	public Object invoke(Object proxy, Method method, Object[] args)
 			throws Throwable {
-		@SuppressWarnings("resource")
 		Socket socket = new Socket(this.host, this.port);
 		MethodCall methodCall = new MethodCall();
 		methodCall.setArgs(args);
@@ -37,10 +36,12 @@ public class RemoteInvocationHandler implements InvocationHandler {
 		out.writeObject(methodCall);
 		ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 		RMIMessage message = (RMIMessage) in.readObject();
+		socket.close();
 		if (message.getType() != MessageType.METHOD_RETURN) {
 			return null;
 		} else {
 			return ((MethodReturn) message).getObject();
 		}
+		
 	}
 }

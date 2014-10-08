@@ -1,6 +1,8 @@
 package tst.ZipCodeR;
 
-public interface ZipCodeRList // extends YourRemote or whatever
+import util.*;
+
+public interface ZipCodeRList extends Remote// extends YourRemote or whatever
 {
 	public String find(String city);
 
