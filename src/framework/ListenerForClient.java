@@ -116,14 +116,21 @@ public class ListenerForClient extends Thread {
 			}
 			boolean isRemote = false;
 			Object returnObject = method.invoke(object, m.getArgs());
-			Class<?>[] interfaceList = returnObject.getClass().getInterfaces();
+			
+			// when the retunObject is null
+			if (returnObject == null) {
+				return new MethodReturn(null);
+			}
+			Class<?>[] interfaceList = returnObject.getClass().getInterfaces()[0].getInterfaces();
+			
 			for (Class<?> temp : interfaceList) {
+				System.out.println(temp.getName());
 				if (temp.getName().contains("Remote")) {
 					isRemote = true;
 				}
 			}
 			if (isRemote) {
-				RemoteObjectRef ror = new RemoteObjectRef(this.host, this.port, interfaceList[0].getName());
+				RemoteObjectRef ror = new RemoteObjectRef(this.host, this.port, returnObject.getClass().getInterfaces()[0].getName());
 				this.table.addObj(ror, returnObject);
 				mr = new MethodReturn(ror);
 			} else {
