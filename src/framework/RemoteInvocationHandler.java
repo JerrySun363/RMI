@@ -40,8 +40,14 @@ public class RemoteInvocationHandler implements InvocationHandler {
 		if (message.getType() != MessageType.METHOD_RETURN) {
 			return null;
 		} else {
-			return ((MethodReturn) message).getObject();
+			Object obj = ((MethodReturn) message).getObject();
+			if (obj instanceof RemoteObjectRef) {
+				return ((RemoteObjectRef) obj).localise();
+			} else {
+				return obj;
+			}
+
 		}
-		
+
 	}
 }
