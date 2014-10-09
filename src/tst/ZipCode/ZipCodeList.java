@@ -9,7 +9,7 @@ public class ZipCodeList implements Serializable {
 	private static final long serialVersionUID = 3554033668584564699L;
 	private String city;
 	private String ZipCode;
-	private ZipCodeList next;
+	public ZipCodeList next;
 
 	public ZipCodeList(String c, String z, ZipCodeList n) {
 		setCity(c);

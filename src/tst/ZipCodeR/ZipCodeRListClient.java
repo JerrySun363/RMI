@@ -80,6 +80,8 @@ public class ZipCodeRListClient {
 		// This is also the test that "add" performed all right.
 		System.out
 				.println("\n This is the remote list, printed using find/next.");
+		
+		l = reverseList(l);
 		temp = l;
 		rtemp = rl;
 		while (temp != null) {
@@ -90,5 +92,18 @@ public class ZipCodeRListClient {
 			temp = temp.getNext();
 			rtemp = rtemp.next();
 		}
+	}
+	
+	public static ZipCodeList reverseList (ZipCodeList head) {
+		ZipCodeList previous = null;
+		ZipCodeList current = head;
+		
+		while (current != null) {
+			ZipCodeList next = current.next;
+			current.setNext(previous);
+			previous = current;
+			current = next;
+		}
+		return previous;
 	}
 }
