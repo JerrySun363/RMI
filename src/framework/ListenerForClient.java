@@ -145,6 +145,7 @@ public class ListenerForClient extends Thread {
 		} catch (Exception e) {
 			mr = new MethodReturn(null);
 			mr.setException(new RemoteServiceException(e.getMessage()));
+			mr.setSuccess(false);
 			e.printStackTrace();
 			return mr;
 		}
