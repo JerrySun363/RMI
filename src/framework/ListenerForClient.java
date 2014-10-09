@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.lang.reflect.Method;
 import java.net.Socket;
 
+import exception.RemoteServiceException;
 import message.MethodCall;
 import message.RMIMessage;
 import message.response.MethodReturn;
@@ -142,7 +143,10 @@ public class ListenerForClient extends Thread {
 			}
 
 		} catch (Exception e) {
+			mr = new MethodReturn(null);
+			mr.setException(new RemoteServiceException(e.getMessage()));
 			e.printStackTrace();
+			return mr;
 		}
 		return mr;
 	}
