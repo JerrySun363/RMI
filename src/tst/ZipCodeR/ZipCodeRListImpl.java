@@ -25,8 +25,9 @@ public class ZipCodeRListImpl implements ZipCodeRList {
 	public String find(String c) {
 		if (c.equals(city))
 			return zipcode;
-		else
-			return null;
+		else{
+			return this.next().find(c);
+		}
 	}
 
 	// this is essentially cons.

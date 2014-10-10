@@ -1,9 +1,1 @@
-exception
 framework
-framework.registry
-message
-message.response
-tst.NameServer
-tst.ZipCode
-tst.ZipCodeR
-util
